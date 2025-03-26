@@ -1,0 +1,47 @@
+{
+  "common": {
+    "appName": "AI字幕助手",
+    "slogan": "智能处理字幕，提升视频体验",
+    "home": "首页",
+    "features": "功能特点",
+    "howToUse": "如何使用",
+    "about": "关于我们",
+    "contact": "联系我们"
+  },
+  "features": {
+    "translate": "字幕翻译",
+    "translateDescription": "使用先进的AI技术，将字幕翻译成多种语言，保持原意的同时流畅自然。",
+    "emoji": "添加表情",
+    "emojiDescription": "智能分析字幕内容，在适当位置添加表情符号，使字幕更加生动有趣。",
+    "fix": "字幕修复",
+    "fixDescription": "自动检测并修复字幕中的错误，包括拼写、语法和格式问题。",
+    "tts": "转语音",
+    "ttsDescription": "将字幕文本转换为自然流畅的语音，支持多种语言和声音风格。"
+  },
+  "actions": {
+    "upload": "上传字幕文件",
+    "process": "处理",
+    "download": "下载",
+    "reset": "重置",
+    "copy": "复制",
+    "save": "保存",
+    "cancel": "取消"
+  },
+  "home": {
+    "hero": {
+      "title": "AI驱动的字幕处理工具",
+      "subtitle": "使用先进的AI技术，轻松翻译、添加表情、修复和转换字幕",
+      "cta": "立即开始",
+      "uploadSubtitle": "上传字幕文件开始处理"
+    },
+    "howToUse": {
+      "title": "如何使用",
+      "step1Title": "上传字幕文件",
+      "step1Description": "支持SRT, VTT, ASS等多种字幕格式",
+      "step2Title": "选择处理功能",
+      "step2Description": "翻译、添加表情、修复或转语音",
+      "step3Title": "获取处理结果",
+      "step3Description": "下载处理后的文件或复制文本"
+    }
+  }
+} 

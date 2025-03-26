@@ -1,0 +1,51 @@
+{
+  "typescript": {
+    "singleQuote": true,
+    "semi": true,
+    "tabWidth": 2,
+    "printWidth": 100,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "always"
+  },
+  "javascript": {
+    "singleQuote": true,
+    "semi": true,
+    "tabWidth": 2,
+    "printWidth": 100,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "always"
+  },
+  "components": {
+    "directory": "src/components",
+    "naming": "PascalCase"
+  },
+  "pages": {
+    "directory": "src/app",
+    "naming": "kebab-case"
+  },
+  "hooks": {
+    "directory": "src/hooks",
+    "naming": "camelCase",
+    "prefix": "use"
+  },
+  "libs": {
+    "directory": "src/lib",
+    "naming": "camelCase"
+  },
+  "tests": {
+    "directory": "__tests__",
+    "suffix": ".test.tsx"
+  },
+  "i18n": {
+    "locales": ["zh", "en"],
+    "defaultLocale": "zh"
+  },
+  "seo": {
+    "titleTemplate": "%s | AI字幕助手",
+    "defaultTitle": "AI字幕助手 - 智能字幕处理平台",
+    "description": "AI字幕助手提供智能字幕翻译、修复、添加表情和转语音等多种功能，让字幕处理更高效、更智能。",
+    "keywords": ["AI字幕", "字幕翻译", "字幕修复", "字幕转语音", "AI技术", "字幕处理"]
+  }
+} 

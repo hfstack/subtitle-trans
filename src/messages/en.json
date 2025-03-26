@@ -1,0 +1,47 @@
+{
+  "common": {
+    "appName": "AI Subtitle Assistant",
+    "slogan": "Smart subtitle processing for better video experience",
+    "home": "Home",
+    "features": "Features",
+    "howToUse": "How to Use",
+    "about": "About Us",
+    "contact": "Contact Us"
+  },
+  "features": {
+    "translate": "Subtitle Translation",
+    "translateDescription": "Translate subtitles into multiple languages using advanced AI technology, maintaining the original meaning while being fluent and natural.",
+    "emoji": "Add Emojis",
+    "emojiDescription": "Intelligently analyze subtitle content and add emojis at appropriate places to make subtitles more vivid and interesting.",
+    "fix": "Subtitle Repair",
+    "fixDescription": "Automatically detect and fix errors in subtitles, including spelling, grammar, and formatting issues.",
+    "tts": "Text to Speech",
+    "ttsDescription": "Convert subtitle text into natural and fluent speech, supporting multiple languages and voice styles."
+  },
+  "actions": {
+    "upload": "Upload Subtitle File",
+    "process": "Process",
+    "download": "Download",
+    "reset": "Reset",
+    "copy": "Copy",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "home": {
+    "hero": {
+      "title": "AI-Powered Subtitle Processing Tool",
+      "subtitle": "Easily translate, add emojis, fix and convert subtitles with advanced AI technology",
+      "cta": "Get Started",
+      "uploadSubtitle": "Upload subtitle file to start processing"
+    },
+    "howToUse": {
+      "title": "How to Use",
+      "step1Title": "Upload Subtitle File",
+      "step1Description": "Supports various subtitle formats including SRT, VTT, ASS",
+      "step2Title": "Choose Processing Function",
+      "step2Description": "Translate, add emojis, fix or convert to speech",
+      "step3Title": "Get Results",
+      "step3Description": "Download processed file or copy text"
+    }
+  }
+} 
