@@ -1,4 +1,11 @@
-export const metadata = {
-  title: '转语音 | AI字幕助手',
-  description: '使用AI技术将字幕文本转换为自然流畅的语音，支持多种语言和声音风格',
-}; 
+import { getTranslations } from 'next-intl/server';
+
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+  const t = await getTranslations({ locale, namespace: 'features' });
+  const commonT = await getTranslations({ locale, namespace: 'common' });
+  
+  return {
+    title: `${t('tts')} | ${commonT('appName')}`,
+    description: t('ttsDescription'),
+  };
+} 

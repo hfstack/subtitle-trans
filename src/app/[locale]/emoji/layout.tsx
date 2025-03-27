@@ -7,12 +7,12 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   const commonT = await getTranslations({ locale, namespace: 'common' });
   
   return {
-    title: `${t('tts')} | ${commonT('appName')}`,
-    description: t('ttsDescription'),
+    title: `${t('emoji')} | ${commonT('appName')}`,
+    description: t('emojiDescription'),
   };
 }
 
-export default function TTSLayout({
+export default function EmojiLayout({
   children,
 }: {
   children: React.ReactNode;
