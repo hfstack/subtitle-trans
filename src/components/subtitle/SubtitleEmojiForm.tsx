@@ -60,12 +60,6 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
     setError(null);
     setStreamingResult('');
     
-    // 创建新的 AbortController 用于取消请求
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    abortControllerRef.current = new AbortController();
-    
     try {
       // 将字幕条目转换为纯文本，用于发送到API
       const textForApi = entriesToText(originalEntries);
@@ -81,8 +75,7 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
           density: emojiDensity,
           position: emojiPosition,
           style: emojiStyle
-        }),
-        signal: abortControllerRef.current.signal
+        })
       });
       
       if (!response.ok) {
@@ -104,8 +97,15 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
             const textChunk = decoder.decode(value, { stream: !done });
             accumulatedResult += textChunk;
             
-            // 为了更好的显示效果，在流式显示时将分隔符替换为换行符
-            setStreamingResult(accumulatedResult);
+            // 实时将API返回的文本应用到原始字幕条目并格式化
+            try {
+              const tempEntries = applyTextToEntries(originalEntries, accumulatedResult);
+              const formattedStreamingResult = formatToSRT(tempEntries);
+              setStreamingResult(formattedStreamingResult);
+            } catch (err) {
+              // 如果格式化失败，则显示原始文本
+              setStreamingResult(accumulatedResult.replace(/\|\|\|\|/g, '\n\n'));
+            }
           }
         }
         
@@ -123,35 +123,10 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
         }
       }
     } catch (error) {
-      // 忽略中止错误
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        console.log('请求被中止');
-        // 确保状态正确重置
-        setIsProcessing(false);
-        setStreamingResult('');
-        return;
-      }
-      
       console.error('处理失败:', error);
       setError(error instanceof Error ? error.message : String(error));
     } finally {
       setIsProcessing(false);
-      abortControllerRef.current = null;
-    }
-  };
-  
-  const handleCancel = () => {
-    try {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-        abortControllerRef.current = null;
-      }
-    } catch (error) {
-      console.error('取消请求时出错:', error);
-    } finally {
-      // 确保状态正确重置
-      setIsProcessing(false);
-      setStreamingResult('');
     }
   };
   
@@ -251,23 +226,13 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
         </div>
         
         <div className="mt-6">
-          {!isProcessing ? (
-            <Button 
-              type="submit" 
-              disabled={isProcessing}
-              className="w-full"
-            >
-              {t('process')}
-            </Button>
-          ) : (
-            <Button 
-              type="button" 
-              onClick={handleCancel}
-              className="w-full bg-red-600 hover:bg-red-700"
-            >
-              {t('cancel')}
-            </Button>
-          )}
+          <Button 
+            type="submit" 
+            disabled={isProcessing}
+            className="w-full"
+          >
+            {isProcessing ? t('processing') : t('process')}
+          </Button>
         </div>
       </form>
       
@@ -281,11 +246,11 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
       {isProcessing && streamingResult && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">
-            {featuresT('emojiInProgress')}
+            {t('processing')}
             <span className="inline-block ml-2 animate-pulse">...</span>
           </h3>
           <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
-            {streamingResult.replace(/\|\|\|\|/g, '\n\n')}
+            {streamingResult}
           </pre>
         </div>
       )}
