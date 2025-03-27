@@ -45,6 +45,19 @@
     "emojiBeforeExample": "I'm very happy today because I finally completed my project!",
     "emojiAfterExample": "I'm very happy today 😄 because I finally completed my project! 🎉",
     
+    "emojiDensity": "Emoji Density",
+    "emojiDensityLow": "Low (Occasional)",
+    "emojiDensityMedium": "Medium (Moderate)",
+    "emojiDensityHigh": "High (Frequent)",
+    "emojiPosition": "Emoji Position",
+    "emojiPositionStart": "At the beginning",
+    "emojiPositionEnd": "At the end",
+    "emojiPositionInline": "Within the text",
+    "emojiStyle": "Emoji Style",
+    "emojiStyleModern": "Modern",
+    "emojiStyleClassic": "Classic",
+    "emojiResult": "Result with Emojis",
+    
     "translateFeature1": "Support translation between multiple languages",
     "translateFeature2": "Maintain the original meaning while ensuring fluent and natural translation",
     "translateFeature3": "Consider context for more accurate translation",
@@ -53,6 +66,17 @@
     "translateTarget": "Translation (Chinese)",
     "translateSourceExample": "The quick brown fox jumps over the lazy dog.",
     "translateTargetExample": "敏捷的棕色狐狸跳过了懒惰的狗。",
+    
+    "sourceLanguage": "Source Language",
+    "targetLanguage": "Target Language",
+    "autoDetect": "Auto Detect",
+    "english": "English",
+    "chinese": "Chinese",
+    "japanese": "Japanese",
+    "korean": "Korean",
+    "french": "French",
+    "german": "German",
+    "spanish": "Spanish",
     
     "ttsFeature1": "Convert subtitle text to natural and fluent speech",
     "ttsFeature2": "Support multiple languages and voice styles",
@@ -63,12 +87,19 @@
     "ttsUseCase2Title": "Accessibility",
     "ttsUseCase2Description": "Provide audio versions of subtitle content for visually impaired users",
     
+    "voiceType": "Voice Type",
+    "femaleClear": "Female (Clear)",
+    "femaleSoft": "Female (Soft)",
+    "maleDeep": "Male (Deep)",
+    "maleNatural": "Male (Natural)",
+    
     "repairLevel": "Repair Level",
     "repairLevelLight": "Light (Fix obvious errors only)",
     "repairLevelStandard": "Standard (Fix most issues)",
     "repairLevelDeep": "Deep (Comprehensive optimization)",
     "repairResult": "Repair Result",
-    "repairError": "Error occurred during repair"
+    "repairError": "Error occurred during repair",
+    "repairInProgress": "Repair in progress"
   },
   "actions": {
     "clickToUpload": "Click to upload",
@@ -83,7 +114,8 @@
     "uploadedFile": "Uploaded File",
     "remove": "Remove",
     "invalidFileType": "Invalid file type. Supported formats:",
-    "fileReadError": "Error reading file. Please try again."
+    "fileReadError": "Error reading file. Please try again.",
+    "cancel": "Cancel"
   },
   "home": {
     "hero": {

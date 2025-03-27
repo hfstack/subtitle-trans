@@ -41,19 +41,69 @@ export async function POST(request: NextRequest) {
     请保持修复后的字幕简洁、清晰，不要过度修改原意。
     请仅返回修复后的文本，保持原有的分隔符。`;
     
-    // 使用 DeepSeek V3 模型
-    const response = await openai.chat.completions.create({
-      model: 'deepseek-chat', // 使用 DeepSeek V3 模型
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: text }
-      ],
-      temperature: 0.3,
+    // 创建流式响应
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          // 使用 DeepSeek V3 模型，启用流式输出
+          const stream = await openai.chat.completions.create({
+            model: 'deepseek-chat', // 使用 DeepSeek V3 模型
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: text }
+            ],
+            temperature: 0.3,
+            stream: true, // 启用流式输出
+          });
+          
+          // 处理流式响应
+          try {
+            for await (const chunk of stream) {
+              const content = chunk.choices[0]?.delta?.content || '';
+              if (content) {
+                // 将内容编码为 UTF-8 并发送
+                // 添加错误处理，防止在控制器关闭后继续发送数据
+                try {
+                  controller.enqueue(new TextEncoder().encode(content));
+                } catch (error) {
+                  console.log('流已关闭，无法继续发送数据');
+                  break;
+                }
+              }
+            }
+            
+            // 只有在没有错误的情况下才关闭控制器
+            controller?.close();
+          } catch (error) {
+            // 捕获流处理过程中的错误
+            console.error('流处理过程中发生错误:', error);
+            // 尝试关闭控制器，但忽略可能的"已关闭"错误
+            try {
+              controller.close();
+            } catch (closeError) {
+              console.log('关闭控制器时出错，可能已经关闭');
+            }
+          }
+        } catch (error) {
+          console.error('流式处理错误:', error);
+          // 尝试发送错误信息，但忽略可能的"已关闭"错误
+          try {
+            controller.error(error);
+          } catch (errorError) {
+            console.log('发送错误时出错，控制器可能已关闭');
+          }
+        }
+      }
     });
     
-    const repairedText = response.choices[0].message.content || '';
-    
-    return NextResponse.json({ repairedText });
+    // 返回流式响应
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    });
   } catch (error) {
     console.error('字幕修复API错误:', error);
     return NextResponse.json(

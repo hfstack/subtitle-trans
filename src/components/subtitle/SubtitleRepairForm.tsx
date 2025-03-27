@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import Button from '../common/Button';
 import { useSubtitleContext } from '@/contexts/SubtitleContext';
@@ -19,9 +19,20 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
   const [result, setResult] = useState<string | null>(null);
   const [repairedContent, setRepairedContent] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const [streamingResult, setStreamingResult] = useState<string>('');
+  const abortControllerRef = useRef<AbortController | null>(null);
   
   // 使用传入的initialContent或者上下文中的subtitleContent
   const content = initialContent || subtitleContent;
+  
+  // 清理函数
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +41,13 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
     
     setIsProcessing(true);
     setError(null);
+    setStreamingResult('');
+    
+    // 创建新的 AbortController 用于取消请求
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
     
     try {
       // 准备请求参数
@@ -50,32 +68,66 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
           text: content,
           ...options
         }),
+        signal: abortControllerRef.current.signal
       });
       
       if (!response.ok) {
         throw new Error(`API请求失败: ${response.status}`);
       }
       
-      const data = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      
-      // 设置修复后的内容
-      setResult(data.repairedText);
-      setRepairedContent(data.repairedText);
-      
-      // 如果有onComplete回调，则调用
-      if (onComplete) {
-        onComplete(data.repairedText);
+      // 处理流式响应
+      if (response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+        let accumulatedResult = '';
+        
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
+          
+          if (value) {
+            const textChunk = decoder.decode(value, { stream: !done });
+            accumulatedResult += textChunk;
+            setStreamingResult(accumulatedResult);
+          }
+        }
+        
+        // 流式响应完成后设置最终结果
+        setResult(accumulatedResult);
+        setRepairedContent(accumulatedResult);
+        
+        // 如果有onComplete回调，则调用
+        if (onComplete) {
+          onComplete(accumulatedResult);
+        }
       }
     } catch (error) {
+      // 忽略中止错误
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        console.log('请求被中止');
+        // 确保状态正确重置
+        setIsProcessing(false);
+        setStreamingResult('');
+        return;
+      }
+      
       console.error('修复失败:', error);
       setError(error instanceof Error ? error.message : String(error));
     } finally {
       setIsProcessing(false);
+      abortControllerRef.current = null;
     }
+  };
+  
+  const handleCancel = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    // 确保状态正确重置
+    setIsProcessing(false);
+    setStreamingResult('');
   };
   
   const handleDownload = () => {
@@ -132,6 +184,7 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
             value={repairLevel}
             onChange={(e) => setRepairLevel(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md"
+            disabled={isProcessing}
           >
             <option value="light">{featuresT('repairLevelLight')}</option>
             <option value="standard">{featuresT('repairLevelStandard')}</option>
@@ -140,13 +193,23 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
         </div>
         
         <div className="mt-6">
-          <Button 
-            type="submit" 
-            disabled={isProcessing}
-            className="w-full"
-          >
-            {isProcessing ? t('processing') : t('process')}
-          </Button>
+          {!isProcessing ? (
+            <Button 
+              type="submit" 
+              disabled={isProcessing}
+              className="w-full"
+            >
+              {t('process')}
+            </Button>
+          ) : (
+            <Button 
+              type="button" 
+              onClick={handleCancel}
+              className="w-full bg-red-600 hover:bg-red-700"
+            >
+              {t('cancel')}
+            </Button>
+          )}
         </div>
       </form>
       
@@ -156,7 +219,21 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
         </div>
       )}
       
-      {result && (
+      {/* 流式输出结果 */}
+      {isProcessing && streamingResult && (
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-2">
+            {featuresT('repairInProgress')}
+            <span className="inline-block ml-2 animate-pulse">...</span>
+          </h3>
+          <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
+            {streamingResult}
+          </pre>
+        </div>
+      )}
+      
+      {/* 最终结果 */}
+      {!isProcessing && result && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">{featuresT('repairResult')}</h3>
           <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">

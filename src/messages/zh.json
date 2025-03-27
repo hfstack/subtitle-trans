@@ -45,6 +45,19 @@
     "emojiBeforeExample": "我今天非常开心，因为我的项目终于完成了！",
     "emojiAfterExample": "我今天非常开心 😄，因为我的项目终于完成了！🎉",
     
+    "emojiDensity": "表情密度",
+    "emojiDensityLow": "低 (偶尔添加)",
+    "emojiDensityMedium": "中 (适量添加)",
+    "emojiDensityHigh": "高 (频繁添加)",
+    "emojiPosition": "表情位置",
+    "emojiPositionStart": "文本开头",
+    "emojiPositionEnd": "文本结尾",
+    "emojiPositionInline": "文本中间",
+    "emojiStyle": "表情风格",
+    "emojiStyleModern": "现代流行",
+    "emojiStyleClassic": "经典传统",
+    "emojiResult": "添加表情后的结果",
+    
     "translateFeature1": "支持多种语言之间的翻译",
     "translateFeature2": "保持原意的同时确保翻译流畅自然",
     "translateFeature3": "考虑上下文语境，提供更准确的翻译",
@@ -53,6 +66,17 @@
     "translateTarget": "翻译（中文）",
     "translateSourceExample": "The quick brown fox jumps over the lazy dog.",
     "translateTargetExample": "敏捷的棕色狐狸跳过了懒惰的狗。",
+    
+    "sourceLanguage": "源语言",
+    "targetLanguage": "目标语言",
+    "autoDetect": "自动检测",
+    "english": "英语",
+    "chinese": "中文",
+    "japanese": "日语",
+    "korean": "韩语",
+    "french": "法语",
+    "german": "德语",
+    "spanish": "西班牙语",
     
     "ttsFeature1": "将字幕文本转换为自然流畅的语音",
     "ttsFeature2": "支持多种语言和声音风格",
@@ -63,12 +87,19 @@
     "ttsUseCase2Title": "辅助功能",
     "ttsUseCase2Description": "为视障人士提供音频版本的字幕内容",
     
+    "voiceType": "声音类型",
+    "femaleClear": "女声（清晰）",
+    "femaleSoft": "女声（柔和）",
+    "maleDeep": "男声（低沉）",
+    "maleNatural": "男声（自然）",
+    
     "repairLevel": "修复级别",
     "repairLevelLight": "轻度（仅修复明显错误）",
     "repairLevelStandard": "标准（修复大部分问题）",
     "repairLevelDeep": "深度（全面优化字幕）",
     "repairResult": "修复结果",
-    "repairError": "修复过程中发生错误"
+    "repairError": "修复过程中发生错误",
+    "repairInProgress": "正在修复中"
   },
   "actions": {
     "clickToUpload": "点击上传",
@@ -83,7 +114,8 @@
     "uploadedFile": "已上传文件",
     "remove": "移除",
     "invalidFileType": "无效的文件类型。支持的格式：",
-    "fileReadError": "读取文件错误。请重试。"
+    "fileReadError": "读取文件错误。请重试。",
+    "cancel": "取消"
   },
   "home": {
     "hero": {

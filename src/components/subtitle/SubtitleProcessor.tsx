@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import FileUpload from '../common/FileUpload';
 import Button from '../common/Button';
+import { parseSRT, formatToSRT, entriesToText, applyTextToEntries, SubtitleEntry } from '@/utils/subtitleUtils';
 
 type ProcessingMode = 'translate' | 'emoji' | 'fix' | 'tts';
 
@@ -32,6 +33,10 @@ const SubtitleProcessor: React.FC<SubtitleProcessorProps> = ({ initialFile = nul
   const [result, setResult] = useState<string | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   
+  // 在组件中添加状态
+  const [originalEntries, setOriginalEntries] = useState<SubtitleEntry[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  
   // 当初始文件变化时更新状态
   useEffect(() => {
     if (initialFile) {
@@ -42,11 +47,38 @@ const SubtitleProcessor: React.FC<SubtitleProcessorProps> = ({ initialFile = nul
     }
   }, [initialFile]);
   
-  const handleFileChange = (selectedFile: File | null) => {
+  const handleFileChange = async (selectedFile: File | null) => {
     setFile(selectedFile);
     setResult(null);
     setAudioUrl(null);
     setProcessingMode(null);
+    setError(null);
+    
+    if (selectedFile) {
+      try {
+        const content = await readFileContent(selectedFile);
+        const entries = parseSRT(content);
+        setOriginalEntries(entries);
+      } catch (err) {
+        console.error('解析字幕文件失败:', err);
+        setError(actionT('fileReadError'));
+      }
+    }
+  };
+  
+  const readFileContent = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          resolve(e.target.result as string);
+        } else {
+          reject(new Error('Failed to read file'));
+        }
+      };
+      reader.onerror = () => reject(reader.error);
+      reader.readAsText(file);
+    });
   };
   
   const handleModeSelect = (mode: ProcessingMode) => {
@@ -58,65 +90,126 @@ const SubtitleProcessor: React.FC<SubtitleProcessorProps> = ({ initialFile = nul
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!file || !processingMode) return;
+    if (!file || !processingMode || originalEntries.length === 0) return;
     
     setIsProcessing(true);
+    setError(null);
     
     try {
-      // 这里应该是实际的API调用
-      // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // 将字幕条目转换为纯文本，用于发送到API
+      const textForApi = entriesToText(originalEntries);
       
-      // 根据不同模式返回不同结果
+      let apiEndpoint = '';
+      let requestBody = {};
+      
+      // 根据不同模式设置不同的API端点和请求体
       switch (processingMode) {
         case 'translate':
-          setResult(`
-1
-00:00:01,000 --> 00:00:04,000
-这是翻译后的字幕示例
-
-2
-00:00:05,000 --> 00:00:08,000
-AI翻译非常智能和准确
-          `);
+          apiEndpoint = '/api/translate';
+          requestBody = {
+            text: textForApi,
+            sourceLang: sourceLanguage,
+            targetLang: targetLanguage,
+            preserveFormatting: true
+          };
           break;
         case 'emoji':
-          setResult(`
-1
-00:00:01,000 --> 00:00:04,000
-这是添加表情后的字幕示例 😊
-
-2
-00:00:05,000 --> 00:00:08,000
-AI添加的表情非常生动有趣 🎉
-          `);
+          apiEndpoint = '/api/emoji';
+          requestBody = {
+            text: textForApi,
+            density: emojiDensity,
+            position: 'inline',
+            style: 'modern'
+          };
           break;
         case 'fix':
-          setResult(`
-1
-00:00:01,000 --> 00:00:04,000
-这是修复后的字幕示例
-
-2
-00:00:05,000 --> 00:00:08,000
-AI修复后的字幕更加准确流畅
-          `);
+          apiEndpoint = '/api/repair';
+          requestBody = {
+            text: textForApi,
+            correctGrammar: repairLevel === 'standard' || repairLevel === 'deep',
+            fixPunctuation: true,
+            improvePhrasing: repairLevel === 'deep',
+            ensureConsistency: repairLevel === 'deep'
+          };
           break;
         case 'tts':
-          setResult('字幕已成功转换为语音');
-          setAudioUrl('https://example.com/sample-audio.mp3');
+          apiEndpoint = '/api/tts';
+          requestBody = {
+            text: textForApi,
+            voice: voice,
+            speed: 1.0,
+            pitch: 1.0
+          };
           break;
+      }
+      
+      // 发送API请求
+      if (processingMode === 'tts') {
+        // TTS需要特殊处理，因为它返回的是音频数据
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API请求失败: ${response.status}`);
+        }
+        
+        // 创建音频URL
+        const audioBlob = await response.blob();
+        const url = URL.createObjectURL(audioBlob);
+        setAudioUrl(url);
+        setResult('字幕已成功转换为语音');
+      } else {
+        // 其他处理模式
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API请求失败: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        
+        // 获取API返回的处理后文本
+        let processedText = '';
+        if (processingMode === 'translate') {
+          processedText = data.translatedText;
+        } else if (processingMode === 'emoji') {
+          processedText = data.processedText;
+        } else if (processingMode === 'fix') {
+          processedText = data.repairedText;
+        }
+        
+        // 将API返回的文本应用到原始字幕条目
+        const updatedEntries = applyTextToEntries(originalEntries, processedText);
+        
+        // 格式化为SRT
+        const formattedResult = formatToSRT(updatedEntries);
+        setResult(formattedResult);
       }
     } catch (error) {
       console.error('处理失败:', error);
-      setResult('处理失败，请重试');
+      setError(error instanceof Error ? error.message : String(error));
     } finally {
       setIsProcessing(false);
     }
   };
   
   const handleDownload = () => {
-    if (!result || !processingMode) return;
+    if (!result) return;
     
     if (processingMode === 'tts' && audioUrl) {
       window.open(audioUrl, '_blank');
