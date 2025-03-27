@@ -1,15 +1,21 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import FileUpload from '../common/FileUpload';
 import Button from '../common/Button';
 import { parseSRT, formatToSRT, entriesToText, applyTextToEntries, SubtitleEntry } from '@/utils/subtitleUtils';
+import { useSubtitleContext } from '@/contexts/SubtitleContext';
 
-const SubtitleEmojiForm = () => {
+interface SubtitleEmojiFormProps {
+  initialContent?: string;
+  onComplete?: (content: string) => void;
+}
+
+const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, onComplete }) => {
   const t = useTranslations('actions');
   const featuresT = useTranslations('features');
-  const [file, setFile] = useState<File | null>(null);
+  const { subtitleContent, setSubtitleContent, subtitleFile, clearSubtitle } = useSubtitleContext();
   const [emojiDensity, setEmojiDensity] = useState('medium');
   const [emojiPosition, setEmojiPosition] = useState('inline');
   const [emojiStyle, setEmojiStyle] = useState('modern');
@@ -17,15 +23,25 @@ const SubtitleEmojiForm = () => {
   const [result, setResult] = useState<string | null>(null);
   const [originalEntries, setOriginalEntries] = useState<SubtitleEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [streamingResult, setStreamingResult] = useState<string>('');
+  const abortControllerRef = useRef<AbortController | null>(null);
   
-  const handleFileChange = async (selectedFile: File | null) => {
-    setFile(selectedFile);
-    setResult(null);
-    setError(null);
-    
-    if (selectedFile) {
+  // 使用传入的initialContent或者上下文中的subtitleContent
+  const content = initialContent || subtitleContent;
+  
+  // 清理函数
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+  
+  // 当内容变化时解析字幕
+  useEffect(() => {
+    if (content) {
       try {
-        const content = await readFileContent(selectedFile);
         const entries = parseSRT(content);
         setOriginalEntries(entries);
       } catch (err) {
@@ -33,30 +49,22 @@ const SubtitleEmojiForm = () => {
         setError(t('fileReadError'));
       }
     }
-  };
-  
-  const readFileContent = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          resolve(e.target.result as string);
-        } else {
-          reject(new Error('Failed to read file'));
-        }
-      };
-      reader.onerror = () => reject(reader.error);
-      reader.readAsText(file);
-    });
-  };
+  }, [content, t]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!file || originalEntries.length === 0) return;
+    if (!content || originalEntries.length === 0) return;
     
     setIsProcessing(true);
     setError(null);
+    setStreamingResult('');
+    
+    // 创建新的 AbortController 用于取消请求
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
     
     try {
       // 将字幕条目转换为纯文本，用于发送到API
@@ -74,29 +82,76 @@ const SubtitleEmojiForm = () => {
           position: emojiPosition,
           style: emojiStyle
         }),
+        signal: abortControllerRef.current.signal
       });
       
       if (!response.ok) {
         throw new Error(`API请求失败: ${response.status}`);
       }
       
-      const data = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error);
+      // 处理流式响应
+      if (response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+        let accumulatedResult = '';
+        
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
+          
+          if (value) {
+            const textChunk = decoder.decode(value, { stream: !done });
+            accumulatedResult += textChunk;
+            
+            // 为了更好的显示效果，在流式显示时将分隔符替换为换行符
+            setStreamingResult(accumulatedResult);
+          }
+        }
+        
+        // 流式响应完成后设置最终结果
+        // 将API返回的文本应用到原始字幕条目
+        const updatedEntries = applyTextToEntries(originalEntries, accumulatedResult);
+        
+        // 格式化为SRT
+        const formattedResult = formatToSRT(updatedEntries);
+        setResult(formattedResult);
+        
+        // 如果有onComplete回调，则调用
+        if (onComplete) {
+          onComplete(formattedResult);
+        }
+      }
+    } catch (error) {
+      // 忽略中止错误
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        console.log('请求被中止');
+        // 确保状态正确重置
+        setIsProcessing(false);
+        setStreamingResult('');
+        return;
       }
       
-      // 将API返回的文本应用到原始字幕条目
-      const updatedEntries = applyTextToEntries(originalEntries, data.processedText);
-      
-      // 格式化为SRT
-      const formattedResult = formatToSRT(updatedEntries);
-      setResult(formattedResult);
-    } catch (error) {
       console.error('处理失败:', error);
       setError(error instanceof Error ? error.message : String(error));
     } finally {
       setIsProcessing(false);
+      abortControllerRef.current = null;
+    }
+  };
+  
+  const handleCancel = () => {
+    try {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        abortControllerRef.current = null;
+      }
+    } catch (error) {
+      console.error('取消请求时出错:', error);
+    } finally {
+      // 确保状态正确重置
+      setIsProcessing(false);
+      setStreamingResult('');
     }
   };
   
@@ -107,7 +162,7 @@ const SubtitleEmojiForm = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = file ? `${file.name.replace(/\.[^/.]+$/, '')}_emoji.srt` : 'emoji_subtitle.srt';
+    a.download = subtitleFile ? `${subtitleFile.name.replace(/\.[^/.]+$/, '')}_emoji.srt` : 'emoji_subtitle.srt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -124,81 +179,118 @@ const SubtitleEmojiForm = () => {
   
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <form onSubmit={handleSubmit}>
-        <FileUpload 
-          onFileChange={handleFileChange} 
-          accept=".srt,.vtt,.ass,.ssa"
-          label={t('upload')}
-        />
-        
-        {error && (
-          <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-md">
-            <p className="text-sm">{error}</p>
+      {/* 显示已上传的文件信息 */}
+      {subtitleFile && (
+        <div className="mb-6 bg-blue-50 p-4 rounded-md">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-sm font-medium text-blue-800">{t('uploadedFile')}</h3>
+              <p className="mt-1 text-sm text-blue-700">
+                {subtitleFile.name} ({(subtitleFile.size / 1024).toFixed(2)} KB)
+              </p>
+            </div>
+            <button 
+              onClick={clearSubtitle}
+              className="text-gray-400 hover:text-gray-500"
+              title={t('remove')}
+            >
+              <span className="text-xl font-bold">×</span>
+            </button>
           </div>
-        )}
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {featuresT('emojiDensity')}
+            </label>
+            <select
+              value={emojiDensity}
+              onChange={(e) => setEmojiDensity(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              disabled={isProcessing}
+            >
+              <option value="low">{featuresT('emojiDensityLow')}</option>
+              <option value="medium">{featuresT('emojiDensityMedium')}</option>
+              <option value="high">{featuresT('emojiDensityHigh')}</option>
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {featuresT('emojiPosition')}
+            </label>
+            <select
+              value={emojiPosition}
+              onChange={(e) => setEmojiPosition(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              disabled={isProcessing}
+            >
+              <option value="start">{featuresT('emojiPositionStart')}</option>
+              <option value="end">{featuresT('emojiPositionEnd')}</option>
+              <option value="inline">{featuresT('emojiPositionInline')}</option>
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {featuresT('emojiStyle')}
+            </label>
+            <select
+              value={emojiStyle}
+              onChange={(e) => setEmojiStyle(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              disabled={isProcessing}
+            >
+              <option value="modern">{featuresT('emojiStyleModern')}</option>
+              <option value="classic">{featuresT('emojiStyleClassic')}</option>
+            </select>
+          </div>
+        </div>
         
-        {file && (
-          <>
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {featuresT('emojiDensity')}
-                </label>
-                <select
-                  value={emojiDensity}
-                  onChange={(e) => setEmojiDensity(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="low">{featuresT('emojiDensityLow')}</option>
-                  <option value="medium">{featuresT('emojiDensityMedium')}</option>
-                  <option value="high">{featuresT('emojiDensityHigh')}</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {featuresT('emojiPosition')}
-                </label>
-                <select
-                  value={emojiPosition}
-                  onChange={(e) => setEmojiPosition(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="start">{featuresT('emojiPositionStart')}</option>
-                  <option value="end">{featuresT('emojiPositionEnd')}</option>
-                  <option value="inline">{featuresT('emojiPositionInline')}</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {featuresT('emojiStyle')}
-                </label>
-                <select
-                  value={emojiStyle}
-                  onChange={(e) => setEmojiStyle(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="modern">{featuresT('emojiStyleModern')}</option>
-                  <option value="classic">{featuresT('emojiStyleClassic')}</option>
-                </select>
-              </div>
-            </div>
-            
-            <div className="mt-6">
-              <Button 
-                type="submit" 
-                disabled={isProcessing}
-                className="w-full"
-              >
-                {isProcessing ? t('processing') : t('process')}
-              </Button>
-            </div>
-          </>
-        )}
+        <div className="mt-6">
+          {!isProcessing ? (
+            <Button 
+              type="submit" 
+              disabled={isProcessing}
+              className="w-full"
+            >
+              {t('process')}
+            </Button>
+          ) : (
+            <Button 
+              type="button" 
+              onClick={handleCancel}
+              className="w-full bg-red-600 hover:bg-red-700"
+            >
+              {t('cancel')}
+            </Button>
+          )}
+        </div>
       </form>
       
-      {result && (
+      {error && (
+        <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-md">
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+      
+      {/* 流式输出结果 */}
+      {isProcessing && streamingResult && (
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-2">
+            {featuresT('emojiInProgress')}
+            <span className="inline-block ml-2 animate-pulse">...</span>
+          </h3>
+          <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
+            {streamingResult.replace(/\|\|\|\|/g, '\n\n')}
+          </pre>
+        </div>
+      )}
+      
+      {result && !isProcessing && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">{featuresT('emojiResult')}</h3>
           <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
