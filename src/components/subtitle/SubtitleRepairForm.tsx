@@ -4,13 +4,25 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import FileUpload from '../common/FileUpload';
 import Button from '../common/Button';
+import { useSubtitleContext } from '../contexts/SubtitleContext';
 
-const SubtitleRepairForm = () => {
+interface SubtitleRepairFormProps {
+  initialContent?: string;
+  onComplete?: (content: string) => void;
+}
+
+const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent, onComplete }) => {
   const t = useTranslations('actions');
+  const { subtitleContent, setSubtitleContent } = useSubtitleContext();
   const [file, setFile] = useState<File | null>(null);
   const [repairLevel, setRepairLevel] = useState('standard');
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<string | null>(null);
+  const [repairedContent, setRepairedContent] = useState<string>('');
+  const [isRepairing, setIsRepairing] = useState<boolean>(false);
+  
+  // 使用传入的initialContent或者上下文中的subtitleContent
+  const content = initialContent || subtitleContent;
   
   const handleFileChange = (selectedFile: File | null) => {
     setFile(selectedFile);
@@ -39,6 +51,14 @@ const SubtitleRepairForm = () => {
 00:00:05,000 --> 00:00:08,000
 AI修复后的字幕更加准确流畅
       `);
+      
+      // 设置修复后的内容
+      setRepairedContent(result);
+      
+      // 如果有onComplete回调，则调用
+      if (onComplete) {
+        onComplete(result);
+      }
     } catch (error) {
       console.error('修复失败:', error);
       setResult('修复失败，请重试');
