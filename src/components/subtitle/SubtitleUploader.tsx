@@ -1,78 +1,96 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { useSubtitleContext } from '@/contexts/SubtitleContext';
 
-interface SubtitleUploaderProps {
-  onSubtitleLoaded?: (content: string) => void;
-}
-
-const SubtitleUploader: React.FC<SubtitleUploaderProps> = ({ onSubtitleLoaded }) => {
+const SubtitleUploader: React.FC = () => {
   const t = useTranslations('actions');
+  const { setSubtitleContent, setSubtitleFile, subtitleContent } = useSubtitleContext();
   const [isUploading, setIsUploading] = useState(false);
-  const { setSubtitleContent } = useSubtitleContext();
-
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
+    
+    // 检查文件类型
+    const validExtensions = ['.srt', '.vtt', '.ass', '.ssa'];
+    const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+    
+    if (!validExtensions.includes(fileExtension)) {
+      setError(`${t('invalidFileType')} ${validExtensions.join(', ')}`);
+      return;
+    }
+    
     setIsUploading(true);
+    setError(null);
     
     try {
       const content = await readFileContent(file);
       setSubtitleContent(content);
-      
-      if (onSubtitleLoaded) {
-        onSubtitleLoaded(content);
-      }
-    } catch (error) {
-      console.error('读取文件失败:', error);
+      setSubtitleFile(file);
+    } catch (err) {
+      console.error('Error reading file:', err);
+      setError(t('fileReadError'));
     } finally {
       setIsUploading(false);
     }
   };
-
+  
   const readFileContent = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        resolve(e.target?.result as string);
+        if (e.target?.result) {
+          resolve(e.target.result as string);
+        } else {
+          reject(new Error('Failed to read file'));
+        }
       };
-      reader.onerror = (e) => {
-        reject(e);
-      };
+      reader.onerror = () => reject(reader.error);
       reader.readAsText(file);
     });
   };
-
+  
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+  
+  // 如果已经有字幕内容，不显示上传组件
+  if (subtitleContent) {
+    return null;
+  }
+  
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-      <div className="flex items-center justify-center w-full">
-        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg className="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-            </svg>
-            <p className="mb-2 text-sm text-gray-500">
-              <span className="font-semibold">{t('clickToUpload')}</span>
-            </p>
-            <p className="text-xs text-gray-500">.SRT, .VTT, .ASS, .SSA</p>
-          </div>
-          <input 
-            id="dropzone-file" 
-            type="file" 
-            className="hidden" 
-            accept=".srt,.vtt,.ass,.ssa"
-            onChange={handleFileChange}
-            disabled={isUploading}
-          />
-        </label>
+    <div>
+      <div 
+        onClick={handleClick}
+        className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors"
+      >
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept=".srt,.vtt,.ass,.ssa"
+          className="hidden"
+        />
+        <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+        </svg>
+        <p className="mt-2 text-sm text-gray-600">
+          {isUploading ? t('uploading') : t('clickToUpload')}
+        </p>
+        <p className="mt-1 text-xs text-gray-500">
+          SRT, VTT, ASS, SSA
+        </p>
       </div>
-      {isUploading && (
-        <div className="mt-4 text-center text-sm text-gray-500">
-          {t('uploading')}...
-        </div>
+      
+      {error && (
+        <p className="mt-2 text-sm text-red-600">
+          {error}
+        </p>
       )}
     </div>
   );

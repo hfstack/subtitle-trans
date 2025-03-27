@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+// 创建 OpenAI 客户端实例，但使用 DeepSeek API
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.DEEPSEEK_API_BASE_URL || 'https://api.deepseek.com/v1', // DeepSeek API 基础 URL
 });
 
 export async function POST(request: NextRequest) {
@@ -39,8 +41,9 @@ export async function POST(request: NextRequest) {
     请保持修复后的字幕简洁、清晰，不要过度修改原意。
     请仅返回修复后的文本，保持原有的分隔符。`;
     
+    // 使用 DeepSeek V3 模型
     const response = await openai.chat.completions.create({
-      model: 'gpt-4-turbo',
+      model: 'deepseek-chat', // 使用 DeepSeek V3 模型
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: text }

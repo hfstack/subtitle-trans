@@ -61,21 +61,38 @@
     "ttsUseCase1Title": "Video Dubbing",
     "ttsUseCase1Description": "Convert subtitles to speech to add narration or dubbing to silent videos",
     "ttsUseCase2Title": "Accessibility",
-    "ttsUseCase2Description": "Provide audio versions of subtitle content for visually impaired users"
+    "ttsUseCase2Description": "Provide audio versions of subtitle content for visually impaired users",
+    
+    "repairLevel": "Repair Level",
+    "repairLevelLight": "Light (Fix obvious errors only)",
+    "repairLevelStandard": "Standard (Fix most issues)",
+    "repairLevelDeep": "Deep (Comprehensive optimization)",
+    "repairResult": "Repair Result",
+    "repairError": "Error occurred during repair"
   },
   "actions": {
     "clickToUpload": "Click to upload",
     "uploading": "Uploading",
     "upload": "Upload",
     "process": "Process",
+    "processing": "Processing...",
     "download": "Download",
     "reset": "Reset",
-    "copy": "Copy"
+    "copy": "Copy",
+    "copySuccess": "Copied to clipboard",
+    "uploadedFile": "Uploaded File",
+    "remove": "Remove",
+    "invalidFileType": "Invalid file type. Supported formats:",
+    "fileReadError": "Error reading file. Please try again."
   },
   "home": {
     "hero": {
       "title": "AI-Powered Subtitle Processing",
       "description": "Enhance your video subtitles with our intelligent tools. Translate, add emojis, fix errors, or convert to speech with just a few clicks."
+    },
+    "features": {
+      "title": "What We Offer",
+      "description": "Comprehensive subtitle processing tools powered by advanced AI"
     },
     "workflow": {
       "title": "How It Works",
@@ -96,10 +113,6 @@
         "title": "Download Results",
         "description": "Get the processed subtitle file or audio file"
       }
-    },
-    "features": {
-      "title": "What We Offer",
-      "description": "Comprehensive subtitle processing tools powered by advanced AI"
     },
     "howToUse": {
       "subtitle": "USER GUIDE",

@@ -61,18 +61,29 @@
     "ttsUseCase1Title": "视频配音",
     "ttsUseCase1Description": "将字幕转换为语音，为无声视频添加旁白或配音",
     "ttsUseCase2Title": "辅助功能",
-    "ttsUseCase2Description": "为视障人士提供音频版本的字幕内容"
+    "ttsUseCase2Description": "为视障人士提供音频版本的字幕内容",
+    
+    "repairLevel": "修复级别",
+    "repairLevelLight": "轻度（仅修复明显错误）",
+    "repairLevelStandard": "标准（修复大部分问题）",
+    "repairLevelDeep": "深度（全面优化字幕）",
+    "repairResult": "修复结果",
+    "repairError": "修复过程中发生错误"
   },
   "actions": {
     "clickToUpload": "点击上传",
     "uploading": "上传中",
     "upload": "上传",
     "process": "处理",
+    "processing": "处理中...",
     "download": "下载",
     "reset": "重置",
     "copy": "复制",
-    "save": "保存",
-    "cancel": "取消"
+    "copySuccess": "已复制到剪贴板",
+    "uploadedFile": "已上传文件",
+    "remove": "移除",
+    "invalidFileType": "无效的文件类型。支持的格式：",
+    "fileReadError": "读取文件错误。请重试。"
   },
   "home": {
     "hero": {
