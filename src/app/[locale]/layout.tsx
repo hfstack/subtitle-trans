@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { setRequestLocale } from 'next-intl/server';
 import MainLayout from '@/components/layout/MainLayout';
 import { routing } from '@/lib/i18n/routing';
+import { SubtitleProvider } from '@/contexts/SubtitleContext';
 
 import '../globals.css';
 
@@ -44,11 +45,13 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={inter.variable}>
       <body className="font-sans">
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <MainLayout>
-            {children}
-          </MainLayout>
-        </NextIntlClientProvider>
+        <SubtitleProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <MainLayout>
+              {children}
+            </MainLayout>
+          </NextIntlClientProvider>
+        </SubtitleProvider>
       </body>
     </html>
   );

@@ -6,7 +6,13 @@
     "features": "Features",
     "howToUse": "How to Use",
     "about": "About Us",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "workflow": "Workflow",
+    "subtitle": "Subtitle",
+    "upload": "Upload",
+    "process": "Process",
+    "download": "Download",
+    "copy": "Copy"
   },
   "features": {
     "translate": "Subtitle Translation",
@@ -19,29 +25,71 @@
     "ttsDescription": "Convert subtitle text into natural and fluent speech, supporting multiple languages and voice styles."
   },
   "actions": {
-    "upload": "Upload Subtitle File",
+    "clickToUpload": "Click to upload",
+    "uploading": "Uploading",
+    "upload": "Upload",
     "process": "Process",
     "download": "Download",
     "reset": "Reset",
-    "copy": "Copy",
-    "save": "Save",
-    "cancel": "Cancel"
+    "copy": "Copy"
   },
   "home": {
     "hero": {
-      "title": "AI-Powered Subtitle Processing Tool",
-      "subtitle": "Easily translate, add emojis, fix and convert subtitles with advanced AI technology",
+      "title1": "Smart Subtitle",
+      "title2": "Processing Tool",
+      "description": "Process subtitles with AI technology, supporting repair, emoji addition, translation, and text-to-speech",
       "cta": "Get Started",
-      "uploadSubtitle": "Upload subtitle file to start processing"
+      "learnMore": "Learn More"
+    },
+    "workflow": {
+      "title": "Subtitle Processing Workflow",
+      "step1": "Upload Subtitle",
+      "step2": "Subtitle Repair",
+      "step3": "Add Emoji",
+      "step4": "Subtitle Translation",
+      "step5": "Text to Speech"
+    },
+    "features": {
+      "subtitle": "POWERFUL FEATURES",
+      "title": "All-in-one Subtitle Processing Solution",
+      "description": "We provide various subtitle processing functions to meet your different needs",
+      "repair": {
+        "title": "Subtitle Repair",
+        "description": "Automatically identify and fix errors in subtitles to improve quality"
+      },
+      "emoji": {
+        "title": "Add Emoji",
+        "description": "Intelligently analyze content and add emoji at appropriate places to make subtitles more vivid"
+      },
+      "translate": {
+        "title": "Subtitle Translation",
+        "description": "Support translation between multiple languages, maintaining the original meaning while being fluent and natural"
+      },
+      "tts": {
+        "title": "Text to Speech",
+        "description": "Convert subtitle text to natural and fluent speech, supporting various voice styles"
+      }
     },
     "howToUse": {
-      "title": "How to Use",
-      "step1Title": "Upload Subtitle File",
-      "step1Description": "Supports various subtitle formats including SRT, VTT, ASS",
-      "step2Title": "Choose Processing Function",
-      "step2Description": "Translate, add emojis, fix or convert to speech",
-      "step3Title": "Get Results",
-      "step3Description": "Download processed file or copy text"
+      "subtitle": "USER GUIDE",
+      "title": "How to Use Our Tool",
+      "description": "Complete subtitle processing in just a few simple steps",
+      "step1": {
+        "title": "Upload Subtitle File",
+        "description": "Support multiple formats such as SRT, VTT, ASS, SSA"
+      },
+      "step2": {
+        "title": "Choose Processing Function",
+        "description": "Repair, add emoji, translate or convert to speech"
+      },
+      "step3": {
+        "title": "Set Parameters",
+        "description": "Adjust processing parameters according to your needs"
+      },
+      "step4": {
+        "title": "Download Results",
+        "description": "Get the processed subtitle file or audio file"
+      }
     }
   }
 } 

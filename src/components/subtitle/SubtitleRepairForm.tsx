@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import FileUpload from '../common/FileUpload';
 import Button from '../common/Button';
-import { useSubtitleContext } from '../contexts/SubtitleContext';
+import { useSubtitleContext } from '@/contexts/SubtitleContext';
 
 interface SubtitleRepairFormProps {
   initialContent?: string;

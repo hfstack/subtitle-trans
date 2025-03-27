@@ -1,20 +1,26 @@
+"use client";
+
 import React from 'react';
+// import MainLayout from '@/components/layout/MainLayout';
 import SubtitleRepairForm from '@/components/subtitle/SubtitleRepairForm';
+import SubtitleUploader from '@/components/subtitle/SubtitleUploader';
+import { useSubtitleContext } from '@/contexts/SubtitleContext';
 
-export const metadata = {
-  title: '字幕修复 | AI字幕助手',
-  description: '使用AI技术自动识别并修复错误的字幕内容，提高字幕质量和准确度',
-};
+const FixPage = () => {
+  const { subtitleContent } = useSubtitleContext();
 
-export default function FixPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">字幕修复</h1>
-      <p className="mb-8 text-gray-600">
-        上传您的字幕文件，我们的AI将自动识别并修复错误，提高字幕质量和准确度。
-      </p>
-      
-      <SubtitleRepairForm />
+    // 移除 MainLayout 包装
+    <div className="bg-white shadow sm:rounded-lg">
+      <div className="px-4 py-5 sm:p-6">
+        <h1 className="text-lg font-medium leading-6 text-gray-900">字幕修复</h1>
+        <div className="mt-5">
+          <SubtitleUploader />
+          {subtitleContent && <SubtitleRepairForm />}
+        </div>
+      </div>
     </div>
   );
-} 
+};
+
+export default FixPage; 

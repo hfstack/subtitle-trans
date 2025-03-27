@@ -1,20 +1,26 @@
+"use client";
+
 import React from 'react';
+// import MainLayout from '@/components/layout/MainLayout';
 import SubtitleEmojiForm from '@/components/subtitle/SubtitleEmojiForm';
+import SubtitleUploader from '@/components/subtitle/SubtitleUploader';
+import { useSubtitleContext } from '@/contexts/SubtitleContext';
 
-export const metadata = {
-  title: '添加表情 | AI字幕助手',
-  description: '使用AI技术智能分析字幕内容，在适当位置添加表情符号，使字幕更加生动有趣',
-};
+const EmojiPage = () => {
+  const { subtitleContent } = useSubtitleContext();
 
-export default function EmojiPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">添加表情</h1>
-      <p className="mb-8 text-gray-600">
-        上传您的字幕文件，我们的AI将智能分析内容并添加适当的表情符号，使字幕更加生动有趣。
-      </p>
-      
-      <SubtitleEmojiForm />
+    // 移除 MainLayout 包装
+    <div className="bg-white shadow sm:rounded-lg">
+      <div className="px-4 py-5 sm:p-6">
+        <h1 className="text-lg font-medium leading-6 text-gray-900">添加表情</h1>
+        <div className="mt-5">
+          <SubtitleUploader />
+          {subtitleContent && <SubtitleEmojiForm />}
+        </div>
+      </div>
     </div>
   );
-} 
+};
+
+export default EmojiPage; 
