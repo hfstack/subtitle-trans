@@ -12,17 +12,56 @@
     "upload": "上传",
     "process": "处理",
     "download": "下载",
-    "copy": "复制"
+    "copy": "复制",
+    "startUsing": "开始使用",
+    "examples": "使用示例",
+    "useCases": "使用场景"
   },
   "features": {
     "translate": "字幕翻译",
     "translateDescription": "使用先进的AI技术，将字幕翻译成多种语言，保持原意的同时流畅自然。",
     "emoji": "添加表情",
-    "emojiDescription": "智能分析字幕内容，在适当位置添加表情符号，使字幕更加生动有趣。",
+    "emojiDescription": "基于内容分析自动为字幕添加适当的表情符号，使其更加生动有表现力。",
     "fix": "字幕修复",
-    "fixDescription": "自动检测并修复字幕中的错误，包括拼写、语法和格式问题。",
+    "fixDescription": "自动检测并修复字幕错误，包括时间轴问题、格式问题和拼写错误。",
     "tts": "转语音",
-    "ttsDescription": "将字幕文本转换为自然流畅的语音，支持多种语言和声音风格。"
+    "ttsDescription": "将字幕文本转换为多种语言和声音的自然语音。",
+    
+    "fixFeature1": "自动检测并修复拼写错误",
+    "fixFeature2": "纠正标点符号和格式问题",
+    "fixFeature3": "调整字幕时间轴，确保同步",
+    "fixFeature4": "优化字幕结构，提高可读性",
+    "fixBefore": "修复前",
+    "fixAfter": "修复后",
+    "fixBeforeExample": "这是一个有错误的字幕,标点符号不正确还有错别字",
+    "fixAfterExample": "这是一个有错误的字幕，标点符号不正确还有错别字。",
+    
+    "emojiFeature1": "智能分析字幕内容和情感",
+    "emojiFeature2": "在适当位置添加相关表情符号",
+    "emojiFeature3": "支持多种表情风格和密度设置",
+    "emojiFeature4": "让字幕更加生动有趣，提升观看体验",
+    "emojiBefore": "添加前",
+    "emojiAfter": "添加后",
+    "emojiBeforeExample": "我今天非常开心，因为我的项目终于完成了！",
+    "emojiAfterExample": "我今天非常开心 😄，因为我的项目终于完成了！🎉",
+    
+    "translateFeature1": "支持多种语言之间的翻译",
+    "translateFeature2": "保持原意的同时确保翻译流畅自然",
+    "translateFeature3": "考虑上下文语境，提供更准确的翻译",
+    "translateFeature4": "支持专业术语和俚语的准确翻译",
+    "translateSource": "原文（英文）",
+    "translateTarget": "翻译（中文）",
+    "translateSourceExample": "The quick brown fox jumps over the lazy dog.",
+    "translateTargetExample": "敏捷的棕色狐狸跳过了懒惰的狗。",
+    
+    "ttsFeature1": "将字幕文本转换为自然流畅的语音",
+    "ttsFeature2": "支持多种语言和声音风格",
+    "ttsFeature3": "可调整语速、音调和情感表达",
+    "ttsFeature4": "适用于视频配音、有声读物和辅助功能",
+    "ttsUseCase1Title": "视频配音",
+    "ttsUseCase1Description": "将字幕转换为语音，为无声视频添加旁白或配音",
+    "ttsUseCase2Title": "辅助功能",
+    "ttsUseCase2Description": "为视障人士提供音频版本的字幕内容"
   },
   "actions": {
     "clickToUpload": "点击上传",
@@ -37,39 +76,31 @@
   },
   "home": {
     "hero": {
-      "title1": "智能字幕",
-      "title2": "处理工具",
-      "description": "使用AI技术处理字幕，支持修复、添加表情、翻译和转语音等功能",
-      "cta": "开始使用",
-      "learnMore": "了解更多"
-    },
-    "workflow": {
-      "title": "字幕处理工作流",
-      "step1": "上传字幕",
-      "step2": "字幕修复",
-      "step3": "添加表情",
-      "step4": "字幕翻译",
-      "step5": "转语音"
+      "title": "AI驱动的字幕处理",
+      "description": "使用我们的智能工具增强您的视频字幕。只需几次点击，即可翻译、添加表情、修复错误或转换为语音。"
     },
     "features": {
-      "subtitle": "强大功能",
-      "title": "一站式字幕处理解决方案",
-      "description": "我们提供多种字幕处理功能，满足您的各种需求",
-      "repair": {
-        "title": "字幕修复",
-        "description": "自动识别并修复字幕中的错误，提高字幕质量"
+      "title": "我们提供的服务",
+      "description": "由先进AI驱动的全面字幕处理工具"
+    },
+    "workflow": {
+      "title": "工作流程",
+      "description": "只需简单几步，即可完成字幕处理",
+      "step1": {
+        "title": "上传字幕文件",
+        "description": "支持SRT、VTT、ASS、SSA等多种格式"
       },
-      "emoji": {
-        "title": "添加表情",
-        "description": "智能分析内容，在适当位置添加表情符号，使字幕更生动"
+      "step2": {
+        "title": "选择处理功能",
+        "description": "修复、添加表情、翻译或转语音"
       },
-      "translate": {
-        "title": "字幕翻译",
-        "description": "支持多种语言之间的翻译，保持原意的同时流畅自然"
+      "step3": {
+        "title": "设置参数",
+        "description": "根据需要调整处理参数"
       },
-      "tts": {
-        "title": "转语音",
-        "description": "将字幕文本转换为自然流畅的语音，支持多种声音风格"
+      "step4": {
+        "title": "下载处理结果",
+        "description": "获取处理后的字幕文件或音频文件"
       }
     },
     "howToUse": {

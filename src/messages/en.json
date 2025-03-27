@@ -12,17 +12,56 @@
     "upload": "Upload",
     "process": "Process",
     "download": "Download",
-    "copy": "Copy"
+    "copy": "Copy",
+    "startUsing": "Start Using",
+    "examples": "Examples",
+    "useCases": "Use Cases"
   },
   "features": {
     "translate": "Subtitle Translation",
     "translateDescription": "Translate subtitles into multiple languages using advanced AI technology, maintaining the original meaning while being fluent and natural.",
     "emoji": "Add Emojis",
-    "emojiDescription": "Intelligently analyze subtitle content and add emojis at appropriate places to make subtitles more vivid and interesting.",
-    "fix": "Subtitle Repair",
-    "fixDescription": "Automatically detect and fix errors in subtitles, including spelling, grammar, and formatting issues.",
+    "emojiDescription": "Automatically add appropriate emojis to subtitles based on content analysis, making them more vivid and expressive.",
+    "fix": "Subtitle Fix",
+    "fixDescription": "Automatically detect and fix subtitle errors, including timing issues, formatting problems, and typos.",
     "tts": "Text to Speech",
-    "ttsDescription": "Convert subtitle text into natural and fluent speech, supporting multiple languages and voice styles."
+    "ttsDescription": "Convert subtitle text to natural-sounding speech in multiple languages and voices.",
+    
+    "fixFeature1": "Automatically detect and fix spelling errors",
+    "fixFeature2": "Correct punctuation and formatting issues",
+    "fixFeature3": "Adjust subtitle timing to ensure synchronization",
+    "fixFeature4": "Optimize subtitle structure for better readability",
+    "fixBefore": "Before Fix",
+    "fixAfter": "After Fix",
+    "fixBeforeExample": "This is a subtitle with errors,punctuation issues and typos",
+    "fixAfterExample": "This is a subtitle with errors, punctuation issues and typos.",
+    
+    "emojiFeature1": "Intelligently analyze subtitle content and emotions",
+    "emojiFeature2": "Add relevant emojis at appropriate positions",
+    "emojiFeature3": "Support various emoji styles and density settings",
+    "emojiFeature4": "Make subtitles more vivid and interesting, enhancing viewing experience",
+    "emojiBefore": "Before Adding Emojis",
+    "emojiAfter": "After Adding Emojis",
+    "emojiBeforeExample": "I'm very happy today because I finally completed my project!",
+    "emojiAfterExample": "I'm very happy today 😄 because I finally completed my project! 🎉",
+    
+    "translateFeature1": "Support translation between multiple languages",
+    "translateFeature2": "Maintain the original meaning while ensuring fluent and natural translation",
+    "translateFeature3": "Consider context for more accurate translation",
+    "translateFeature4": "Support accurate translation of technical terms and slang",
+    "translateSource": "Source (English)",
+    "translateTarget": "Translation (Chinese)",
+    "translateSourceExample": "The quick brown fox jumps over the lazy dog.",
+    "translateTargetExample": "敏捷的棕色狐狸跳过了懒惰的狗。",
+    
+    "ttsFeature1": "Convert subtitle text to natural and fluent speech",
+    "ttsFeature2": "Support multiple languages and voice styles",
+    "ttsFeature3": "Adjust speech rate, pitch, and emotional expression",
+    "ttsFeature4": "Suitable for video dubbing, audiobooks, and accessibility features",
+    "ttsUseCase1Title": "Video Dubbing",
+    "ttsUseCase1Description": "Convert subtitles to speech to add narration or dubbing to silent videos",
+    "ttsUseCase2Title": "Accessibility",
+    "ttsUseCase2Description": "Provide audio versions of subtitle content for visually impaired users"
   },
   "actions": {
     "clickToUpload": "Click to upload",
@@ -35,40 +74,32 @@
   },
   "home": {
     "hero": {
-      "title1": "Smart Subtitle",
-      "title2": "Processing Tool",
-      "description": "Process subtitles with AI technology, supporting repair, emoji addition, translation, and text-to-speech",
-      "cta": "Get Started",
-      "learnMore": "Learn More"
+      "title": "AI-Powered Subtitle Processing",
+      "description": "Enhance your video subtitles with our intelligent tools. Translate, add emojis, fix errors, or convert to speech with just a few clicks."
     },
     "workflow": {
-      "title": "Subtitle Processing Workflow",
-      "step1": "Upload Subtitle",
-      "step2": "Subtitle Repair",
-      "step3": "Add Emoji",
-      "step4": "Subtitle Translation",
-      "step5": "Text to Speech"
+      "title": "How It Works",
+      "description": "Complete subtitle processing in just a few simple steps",
+      "step1": {
+        "title": "Upload Subtitle File",
+        "description": "Support multiple formats such as SRT, VTT, ASS, SSA"
+      },
+      "step2": {
+        "title": "Choose Processing Function",
+        "description": "Repair, add emoji, translate or convert to speech"
+      },
+      "step3": {
+        "title": "Set Parameters",
+        "description": "Adjust processing parameters according to your needs"
+      },
+      "step4": {
+        "title": "Download Results",
+        "description": "Get the processed subtitle file or audio file"
+      }
     },
     "features": {
-      "subtitle": "POWERFUL FEATURES",
-      "title": "All-in-one Subtitle Processing Solution",
-      "description": "We provide various subtitle processing functions to meet your different needs",
-      "repair": {
-        "title": "Subtitle Repair",
-        "description": "Automatically identify and fix errors in subtitles to improve quality"
-      },
-      "emoji": {
-        "title": "Add Emoji",
-        "description": "Intelligently analyze content and add emoji at appropriate places to make subtitles more vivid"
-      },
-      "translate": {
-        "title": "Subtitle Translation",
-        "description": "Support translation between multiple languages, maintaining the original meaning while being fluent and natural"
-      },
-      "tts": {
-        "title": "Text to Speech",
-        "description": "Convert subtitle text to natural and fluent speech, supporting various voice styles"
-      }
+      "title": "What We Offer",
+      "description": "Comprehensive subtitle processing tools powered by advanced AI"
     },
     "howToUse": {
       "subtitle": "USER GUIDE",
