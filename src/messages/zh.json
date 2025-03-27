@@ -99,7 +99,13 @@
     "repairLevelDeep": "深度（全面优化字幕）",
     "repairResult": "修复结果",
     "repairError": "修复过程中发生错误",
-    "repairInProgress": "正在修复中"
+    "repairInProgress": "正在修复中",
+    "comparisonView": "修改对比视图",
+    "modified": "已修改",
+    "unchanged": "未修改",
+    "original": "原始文本",
+    "repaired": "修复后文本",
+    "modifiedContent": "修改内容"
   },
   "actions": {
     "clickToUpload": "点击上传",

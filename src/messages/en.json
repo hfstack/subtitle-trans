@@ -99,7 +99,13 @@
     "repairLevelDeep": "Deep (Comprehensive optimization)",
     "repairResult": "Repair Result",
     "repairError": "Error occurred during repair",
-    "repairInProgress": "Repair in progress"
+    "repairInProgress": "Repair in progress",
+    "comparisonView": "Comparison View",
+    "modified": "Modified",
+    "unchanged": "Unchanged",
+    "original": "Original",
+    "repaired": "Repaired",
+    "modifiedContent": "Modified Content"
   },
   "actions": {
     "clickToUpload": "Click to upload",

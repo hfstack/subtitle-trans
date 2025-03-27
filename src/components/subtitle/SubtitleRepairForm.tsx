@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import Button from '../common/Button';
 import { useSubtitleContext } from '@/contexts/SubtitleContext';
+import { compareSubtitles, formatSubtitleForDisplay, highlightDifferences } from '@/utils/subtitleUtils';
 
 interface SubtitleRepairFormProps {
   initialContent?: string;
@@ -20,6 +21,10 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
   const [repairedContent, setRepairedContent] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [streamingResult, setStreamingResult] = useState<string>('');
+  const [comparisonResult, setComparisonResult] = useState<{
+    originalEntries: string[];
+    repairedEntries: { text: string; isModified: boolean }[];
+  } | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   
   // 使用传入的initialContent或者上下文中的subtitleContent
@@ -42,6 +47,7 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
     setIsProcessing(true);
     setError(null);
     setStreamingResult('');
+    setComparisonResult(null);
     
     // 创建新的 AbortController 用于取消请求
     if (abortControllerRef.current) {
@@ -97,9 +103,15 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
         setResult(accumulatedResult);
         setRepairedContent(accumulatedResult);
         
+        // 生成比较结果
+        const comparison = compareSubtitles(content, accumulatedResult);
+        setComparisonResult(comparison);
+        
         // 如果有onComplete回调，则调用
         if (onComplete) {
-          onComplete(accumulatedResult);
+          // 移除[MODIFIED]标记后再传递
+          const cleanResult = accumulatedResult.replace(/\[MODIFIED\]/g, '');
+          onComplete(cleanResult);
         }
       }
     } catch (error) {
@@ -138,7 +150,10 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
   const handleDownload = () => {
     if (!result) return;
     
-    const blob = new Blob([result], { type: 'text/plain' });
+    // 移除[MODIFIED]标记后再下载
+    const cleanResult = result.replace(/\[MODIFIED\]/g, '');
+    
+    const blob = new Blob([cleanResult], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -152,7 +167,10 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
   const handleCopy = () => {
     if (!result) return;
     
-    navigator.clipboard.writeText(result)
+    // 移除[MODIFIED]标记后再复制
+    const cleanResult = result.replace(/\[MODIFIED\]/g, '');
+    
+    navigator.clipboard.writeText(cleanResult)
       .then(() => alert(t('copySuccess')))
       .catch(err => console.error('复制失败:', err));
   };
@@ -232,26 +250,85 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
             <span className="inline-block ml-2 animate-pulse">...</span>
           </h3>
           <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
-            {streamingResult}
+            {streamingResult.replace(/\[MODIFIED\]/g, '')}
           </pre>
         </div>
       )}
       
-      {/* 最终结果 */}
-      {!isProcessing && result && (
+      {/* 最终结果 - 对比视图 */}
+      {!isProcessing && comparisonResult && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">{featuresT('repairResult')}</h3>
-          <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
-            {result}
-          </pre>
           
-          <div className="mt-4 flex space-x-4">
-            <Button onClick={handleDownload}>
-              {t('download')}
-            </Button>
-            <Button variant="secondary" onClick={handleCopy}>
-              {t('copy')}
-            </Button>
+          <div className="bg-gray-50 p-4 rounded-md">
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="text-sm font-medium text-gray-700">{featuresT('comparisonView')}</h4>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center">
+                    <span className="inline-block w-3 h-3 bg-yellow-200 mr-1"></span>
+                    <span className="text-xs text-gray-600">{featuresT('modified')}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="inline-block w-3 h-3 bg-gray-100 mr-1"></span>
+                    <span className="text-xs text-gray-600">{featuresT('unchanged')}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="border rounded-md overflow-hidden">
+                {comparisonResult.originalEntries.map((original, index) => {
+                  const repaired = comparisonResult.repairedEntries[index];
+                  const isModified = repaired?.isModified || false;
+                  
+                  return (
+                    <div key={index} className={`border-b last:border-b-0 ${isModified ? 'bg-yellow-50' : 'bg-gray-50'}`}>
+                      <div className="grid grid-cols-2 divide-x">
+                        <div className="p-3">
+                          <h5 className="text-xs font-medium text-gray-500 mb-1">{featuresT('original')}</h5>
+                          <p 
+                            className="text-sm text-gray-800 whitespace-pre-wrap" 
+                            dangerouslySetInnerHTML={{ __html: formatSubtitleForDisplay(original) }}
+                          ></p>
+                        </div>
+                        <div className="p-3">
+                          <h5 className="text-xs font-medium text-gray-500 mb-1">{featuresT('repaired')}</h5>
+                          {isModified ? (
+                            <div>
+                              <p 
+                                className="text-sm text-gray-800 whitespace-pre-wrap" 
+                                dangerouslySetInnerHTML={{ 
+                                  __html: formatSubtitleForDisplay(
+                                    highlightDifferences(original, repaired?.text || '')
+                                  ) 
+                                }}
+                              ></p>
+                              <span className="inline-block mt-1 px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs font-medium rounded">
+                                {featuresT('modified')}
+                              </span>
+                            </div>
+                          ) : (
+                            <p 
+                              className="text-sm text-gray-800 whitespace-pre-wrap" 
+                              dangerouslySetInnerHTML={{ __html: formatSubtitleForDisplay(repaired?.text || '') }}
+                            ></p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+            <div className="mt-4 flex space-x-4">
+              <Button onClick={handleDownload}>
+                {t('download')}
+              </Button>
+              <Button variant="secondary" onClick={handleCopy}>
+                {t('copy')}
+              </Button>
+            </div>
           </div>
         </div>
       )}
