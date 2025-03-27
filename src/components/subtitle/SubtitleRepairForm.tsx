@@ -121,13 +121,18 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
   };
   
   const handleCancel = () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-      abortControllerRef.current = null;
+    try {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        abortControllerRef.current = null;
+      }
+    } catch (error) {
+      console.error('取消请求时出错:', error);
+    } finally {
+      // 确保状态正确重置
+      setIsProcessing(false);
+      setStreamingResult('');
     }
-    // 确保状态正确重置
-    setIsProcessing(false);
-    setStreamingResult('');
   };
   
   const handleDownload = () => {
