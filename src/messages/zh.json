@@ -46,9 +46,9 @@
     "emojiAfterExample": "我今天非常开心 😄，因为我的项目终于完成了！🎉",
     
     "emojiDensity": "表情密度",
-    "emojiDensityLow": "低 (偶尔添加)",
-    "emojiDensityMedium": "中 (适量添加)",
-    "emojiDensityHigh": "高 (频繁添加)",
+    "emojiDensityLow": "低（偶尔添加）",
+    "emojiDensityMedium": "中（适量添加）",
+    "emojiDensityHigh": "高（频繁添加）",
     "emojiPosition": "表情位置",
     "emojiPositionStart": "文本开头",
     "emojiPositionEnd": "文本结尾",
@@ -96,7 +96,7 @@
     "repairLevel": "修复级别",
     "repairLevelLight": "轻度（仅修复明显错误）",
     "repairLevelStandard": "标准（修复大部分问题）",
-    "repairLevelDeep": "深度（全面优化字幕）",
+    "repairLevelDeep": "深度（全面优化）",
     "repairResult": "修复结果",
     "repairError": "修复过程中发生错误",
     "repairInProgress": "正在修复中",
@@ -110,7 +110,15 @@
     "reduceWordCount": "在保持语意的情况下减少单词数量（使字幕更简洁）",
     "translateOptions": "翻译选项",
     "preserveEmojis": "保留表情符号和特殊字符",
-    "autoLineBreak": "自动为长字幕添加换行"
+    "autoLineBreak": "自动为长字幕添加换行",
+    "processing": "处理中...",
+    "process": "开始处理",
+    "speed": "语速",
+    "pitch": "音调",
+    "speedValue": "{speed}x",
+    "pitchValue": "{pitch}",
+    "speedLabel": "语速调节",
+    "pitchLabel": "音调调节"
   },
   "actions": {
     "clickToUpload": "点击上传",

@@ -11,6 +11,7 @@ import { useSubtitleContext } from '@/contexts/SubtitleContext';
 import Hero from '@/components/home/Hero';
 import Features from '@/components/home/Features';
 import HowToUse from '@/components/home/HowToUse';
+import SubtitleProcessForm from '@/components/subtitle/SubtitleProcessForm';
 
 const HomePage = () => {
   const { subtitleContent } = useSubtitleContext();
@@ -20,10 +21,7 @@ const HomePage = () => {
   
   const steps = [
     { title: t('step1.title'), component: <SubtitleUploader /> },
-    { title: t('step2.title'), component: <SubtitleRepairForm onComplete={(content) => {
-      setProcessedContent(content);
-      setCurrentStep(2);
-    }} /> },
+    { title: t('step2.title'), component: <SubtitleProcessForm /> },
     { title: t('step3.title'), component: <SubtitleEmojiForm initialContent={processedContent} onComplete={(content) => {
       setProcessedContent(content);
       setCurrentStep(3);
@@ -76,7 +74,7 @@ const HomePage = () => {
           </div>
           
           {/* 当前步骤内容 */}
-          <div className="mt-8">
+          <div className="mt-8 w-full overflow-visible">
             {steps[currentStep].component}
           </div>
         </div>
