@@ -26,7 +26,7 @@ const HowToUse = () => {
       id: '04',
       name: t('howToUse.step4.title'),
       description: t('howToUse.step4.description'),
-    },
+    }
   ];
 
   return (

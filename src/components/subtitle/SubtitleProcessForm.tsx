@@ -27,6 +27,7 @@ interface ProcessSettings {
   voice: string;
   speed: number;
   pitch: number;
+  reduceWordCount: boolean;
 }
 
 interface ProcessResult {
@@ -64,7 +65,8 @@ const SubtitleProcessForm = () => {
     optimizeLength: true,
     voice: 'female1',
     speed: 1.0,
-    pitch: 1.0
+    pitch: 1.0,
+    reduceWordCount: false
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -295,8 +297,8 @@ const SubtitleProcessForm = () => {
           <option value="ja">{t('japanese')}</option>
           <option value="ko">{t('korean')}</option>
           <option value="fr">{t('french')}</option>
-          <option value="de">{t('german')}</option>
           <option value="es">{t('spanish')}</option>
+          <option value="de">{t('german')}</option>
         </select>
       </div>
       
@@ -314,8 +316,20 @@ const SubtitleProcessForm = () => {
           <option value="ja">{t('japanese')}</option>
           <option value="ko">{t('korean')}</option>
           <option value="fr">{t('french')}</option>
-          <option value="de">{t('german')}</option>
           <option value="es">{t('spanish')}</option>
+          <option value="de">{t('german')}</option>
+          <option value="zh-en">中英双语 / Chinese-English</option>
+          <option value="zh-ja">中日双语 / Chinese-Japanese</option>
+          <option value="zh-fr">中法双语 / Chinese-French</option>
+          <option value="zh-es">中西双语 / Chinese-Spanish</option>
+          <option value="en-zh">英中双语 / English-Chinese</option>
+          <option value="en-ja">英日双语 / English-Japanese</option>
+          <option value="en-fr">英法双语 / English-French</option>
+          <option value="en-es">英西双语 / English-Spanish</option>
+          <option value="auto-en">原文-英语 / Original-English</option>
+          <option value="auto-zh">原文-中文 / Original-Chinese</option>
+          <option value="auto-fr">原文-法语 / Original-French</option>
+          <option value="auto-es">原文-西班牙语 / Original-Spanish</option>
         </select>
       </div>
       
@@ -343,6 +357,19 @@ const SubtitleProcessForm = () => {
           />
           <label htmlFor="optimizeLength" className="ml-2 text-sm text-gray-700">
             {t('optimizeLength')}
+          </label>
+        </div>
+
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="reduceWordCount"
+            checked={settings.reduceWordCount}
+            onChange={(e) => setSettings({...settings, reduceWordCount: e.target.checked})}
+            className="h-4 w-4 text-indigo-600 rounded border-gray-300"
+          />
+          <label htmlFor="reduceWordCount" className="ml-2 text-sm text-gray-700">
+            {t('reduceWordCount')}
           </label>
         </div>
       </div>

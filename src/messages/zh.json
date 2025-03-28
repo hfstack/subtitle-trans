@@ -177,27 +177,32 @@
       "step4": {
         "title": "下载处理结果",
         "description": "获取处理后的字幕文件或音频文件"
+      },
+      "quickSteps": {
+        "upload": "上传字幕",
+        "process": "处理",
+        "download": "下载"
       }
     },
     "howToUse": {
       "subtitle": "使用指南",
       "title": "如何使用我们的工具",
-      "description": "只需简单几步，即可完成字幕处理",
+      "description": "通过简单的步骤，快速处理您的字幕文件",
       "step1": {
         "title": "上传字幕文件",
-        "description": "支持SRT、VTT、ASS、SSA等多种格式"
+        "description": "点击上传区域或拖拽字幕文件，支持SRT、VTT、ASS、SSA等多种格式"
       },
       "step2": {
         "title": "选择处理功能",
-        "description": "修复、添加表情、翻译或转语音"
+        "description": "勾选需要的功能：修复格式、添加表情、翻译或转语音，并设置相关参数"
       },
       "step3": {
-        "title": "设置参数",
-        "description": "根据需要调整处理参数"
+        "title": "一键处理",
+        "description": "点击处理按钮，系统将自动完成所有选择的功能"
       },
       "step4": {
-        "title": "下载处理结果",
-        "description": "获取处理后的字幕文件或音频文件"
+        "title": "下载或复制",
+        "description": "处理完成后，可以下载字幕文件，或直接复制处理后的内容"
       }
     }
   },

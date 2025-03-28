@@ -171,27 +171,32 @@
       "step4": {
         "title": "Download Results",
         "description": "Get the processed subtitle file or audio file"
+      },
+      "quickSteps": {
+        "upload": "Upload Subtitle",
+        "process": "Process",
+        "download": "Download"
       }
     },
     "howToUse": {
       "subtitle": "USER GUIDE",
       "title": "How to Use Our Tool",
-      "description": "Complete subtitle processing in just a few simple steps",
+      "description": "Process your subtitle files quickly with simple steps",
       "step1": {
         "title": "Upload Subtitle File",
-        "description": "Support multiple formats such as SRT, VTT, ASS, SSA"
+        "description": "Click upload area or drag and drop your subtitle file, supporting SRT, VTT, ASS, SSA formats"
       },
       "step2": {
-        "title": "Choose Processing Function",
-        "description": "Repair, add emoji, translate or convert to speech"
+        "title": "Select Features",
+        "description": "Choose the features you need: repair format, add emojis, translate or convert to speech, and set related parameters"
       },
       "step3": {
-        "title": "Set Parameters",
-        "description": "Adjust processing parameters according to your needs"
+        "title": "One-Click Process",
+        "description": "Click the process button, and the system will automatically complete all selected features"
       },
       "step4": {
-        "title": "Download Results",
-        "description": "Get the processed subtitle file or audio file"
+        "title": "Download or Copy",
+        "description": "After processing, you can download the subtitle file or directly copy the processed content"
       }
     }
   },
