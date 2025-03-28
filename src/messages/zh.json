@@ -105,7 +105,12 @@
     "unchanged": "未修改",
     "original": "原始文本",
     "repaired": "修复后文本",
-    "modifiedContent": "修改内容"
+    "modifiedContent": "修改内容",
+    "optimizeLength": "优化翻译长度，使朗读时长接近原文（保持语序不变）",
+    "reduceWordCount": "在保持语意的情况下减少单词数量（使字幕更简洁）",
+    "translateOptions": "翻译选项",
+    "preserveEmojis": "保留表情符号和特殊字符",
+    "autoLineBreak": "自动为长字幕添加换行"
   },
   "actions": {
     "clickToUpload": "点击上传",

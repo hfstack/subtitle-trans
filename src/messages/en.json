@@ -105,7 +105,12 @@
     "unchanged": "Unchanged",
     "original": "Original",
     "repaired": "Repaired",
-    "modifiedContent": "Modified Content"
+    "modifiedContent": "Modified Content",
+    "optimizeLength": "Optimize translation length to match original reading time (maintain word order)",
+    "reduceWordCount": "Reduce word count while maintaining meaning (for more concise subtitles)",
+    "translateOptions": "Translation Options",
+    "preserveEmojis": "Preserve emojis and special characters",
+    "autoLineBreak": "Automatically add line breaks for long subtitles"
   },
   "actions": {
     "clickToUpload": "Click to upload",

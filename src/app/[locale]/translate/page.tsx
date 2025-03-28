@@ -41,6 +41,36 @@ const TranslatePage = () => {
             </ul>
           </div>
           
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+            <h2 className="text-lg font-medium text-gray-900 mb-2">{t('translateOptions')}</h2>
+            <ul className="list-disc pl-5 space-y-2 text-gray-600">
+              <li>
+                <span className="font-medium">{t('optimizeLength')}</span>
+                <p className="mt-1 text-sm">
+                  此选项会尽量使翻译后的文本长度与原文相近，使朗读时长接近，同时保持语序不变，确保字幕与视频同步。
+                </p>
+              </li>
+              <li>
+                <span className="font-medium">{t('reduceWordCount')}</span>
+                <p className="mt-1 text-sm">
+                  此选项会在保持原意的情况下减少单词数量，使字幕更加简洁，适合快节奏的视频或空间有限的显示场景。
+                </p>
+              </li>
+              <li>
+                <span className="font-medium">{t('preserveEmojis')}</span>
+                <p className="mt-1 text-sm">
+                  翻译过程中会保留原文中的所有表情符号，确保视觉表达不会丢失。
+                </p>
+              </li>
+              <li>
+                <span className="font-medium">{t('autoLineBreak')}</span>
+                <p className="mt-1 text-sm">
+                  对于较长的字幕内容，会在适当位置自动添加换行，确保每行不超过40个字符，提高可读性。
+                </p>
+              </li>
+            </ul>
+          </div>
+          
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h2 className="text-lg font-medium text-gray-900 mb-2">{commonT('examples')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
