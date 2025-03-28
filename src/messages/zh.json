@@ -103,7 +103,7 @@
     "comparisonView": "修改对比视图",
     "modified": "已修改",
     "unchanged": "未修改",
-    "original": "原始文本",
+    "original": "原始字幕",
     "repaired": "修复后文本",
     "modifiedContent": "修改内容",
     "optimizeLength": "优化翻译长度，使朗读时长接近原文（保持语序不变）",
@@ -118,7 +118,13 @@
     "speedValue": "{speed}x",
     "pitchValue": "{pitch}",
     "speedLabel": "语速调节",
-    "pitchLabel": "音调调节"
+    "pitchLabel": "音调调节",
+    "ttsInDevelopment": "TTS功能正在开发中，敬请期待！",
+    "processed": "处理后字幕",
+    "repairApplied": "已修复",
+    "emojiApplied": "已添加表情",
+    "translateApplied": "已翻译",
+    "noSubtitleContent": "请先上传字幕文件"
   },
   "actions": {
     "clickToUpload": "点击上传",

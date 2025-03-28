@@ -13,7 +13,7 @@
     "process": "Process",
     "download": "Download",
     "copy": "Copy",
-    "startUsing": "Start Using",
+    "startUsing": "Get Started",
     "examples": "Examples",
     "useCases": "Use Cases"
   },
@@ -103,14 +103,22 @@
     "comparisonView": "Comparison View",
     "modified": "Modified",
     "unchanged": "Unchanged",
-    "original": "Original",
+    "original": "Original Subtitle",
     "repaired": "Repaired",
     "modifiedContent": "Modified Content",
     "optimizeLength": "Optimize translation length to match original reading time (maintain word order)",
     "reduceWordCount": "Reduce word count while maintaining meaning (for more concise subtitles)",
     "translateOptions": "Translation Options",
     "preserveEmojis": "Preserve emojis and special characters",
-    "autoLineBreak": "Automatically add line breaks for long subtitles"
+    "autoLineBreak": "Automatically add line breaks for long subtitles",
+    "ttsInDevelopment": "TTS feature is under development. Stay tuned!",
+    "selectAtLeastOne": "Please select at least one processing feature",
+    "processingError": "An error occurred during processing, please try again",
+    "processed": "Processed Subtitle",
+    "repairApplied": "Repaired",
+    "emojiApplied": "Emojis Added",
+    "translateApplied": "Translated",
+    "noSubtitleContent": "Please upload a subtitle file first"
   },
   "actions": {
     "clickToUpload": "Click to upload",
