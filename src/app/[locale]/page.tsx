@@ -19,20 +19,20 @@ const HomePage = () => {
   const t = useTranslations('home.workflow');
   
   const steps = [
-    { title: t('step1'), component: <SubtitleUploader /> },
-    { title: t('step2'), component: <SubtitleRepairForm onComplete={(content) => {
+    { title: t('step1.title'), component: <SubtitleUploader /> },
+    { title: t('step2.title'), component: <SubtitleRepairForm onComplete={(content) => {
       setProcessedContent(content);
       setCurrentStep(2);
     }} /> },
-    { title: t('step3'), component: <SubtitleEmojiForm initialContent={processedContent} onComplete={(content) => {
+    { title: t('step3.title'), component: <SubtitleEmojiForm initialContent={processedContent} onComplete={(content) => {
       setProcessedContent(content);
       setCurrentStep(3);
     }} /> },
-    { title: t('step4'), component: <SubtitleTranslateForm initialContent={processedContent} onComplete={(content) => {
+    { title: t('step4.title'), component: <SubtitleTranslateForm initialContent={processedContent} onComplete={(content) => {
       setProcessedContent(content);
       setCurrentStep(4);
     }} /> },
-    { title: t('step5'), component: <SubtitleTTSForm initialContent={processedContent} /> }
+    { title: t('step4.title'), component: <SubtitleTTSForm content={processedContent} /> }
   ];
 
   // 当上传字幕后自动进入第二步
