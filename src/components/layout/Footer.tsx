@@ -19,7 +19,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">功能</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('common.features')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/translate" className="text-gray-400 hover:text-white">
@@ -45,7 +45,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">关于我们</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('common.about')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-gray-400 hover:text-white">
@@ -59,21 +59,21 @@ const Footer = () => {
               </li>
               <li>
                 <Link href="/privacy" className="text-gray-400 hover:text-white">
-                  隐私政策
+                  {t('footer.privacy')}
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="text-gray-400 hover:text-white">
-                  使用条款
+                  {t('footer.terms')}
                 </Link>
               </li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">联系我们</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('common.contact')}</h3>
             <p className="text-gray-400 mb-2">
-              邮箱: contact@aisubtitle.com
+              {t('footer.email')}: contact@aisubtitle.com
             </p>
             <div className="flex space-x-4 mt-4">
               <a href="#" className="text-gray-400 hover:text-white">
@@ -96,7 +96,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} AI字幕助手. 保留所有权利。</p>
+          <p>{t('footer.copyright', { year: new Date().getFullYear() })}</p>
         </div>
       </div>
     </footer>

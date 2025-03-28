@@ -124,7 +124,15 @@
     "repairApplied": "已修复",
     "emojiApplied": "已添加表情",
     "translateApplied": "已翻译",
-    "noSubtitleContent": "请先上传字幕文件"
+    "noSubtitleContent": "请先上传字幕文件",
+    "female": "女声",
+    "male": "男声",
+    "femaleWarm": "女声（温暖）",
+    "femaleLively": "女声（活力）",
+    "femaleGentle": "女声（温柔）",
+    "maleProfessional": "男声（专业）",
+    "maleWarm": "男声（温暖）",
+    "maleCasual": "男声（随性）"
   },
   "actions": {
     "clickToUpload": "点击上传",
@@ -192,5 +200,11 @@
         "description": "获取处理后的字幕文件或音频文件"
       }
     }
+  },
+  "footer": {
+    "privacy": "隐私政策",
+    "terms": "使用条款",
+    "email": "邮箱",
+    "copyright": "© {year} AI字幕助手. 保留所有权利。"
   }
 } 

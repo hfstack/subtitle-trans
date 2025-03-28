@@ -118,7 +118,15 @@
     "repairApplied": "Repaired",
     "emojiApplied": "Emojis Added",
     "translateApplied": "Translated",
-    "noSubtitleContent": "Please upload a subtitle file first"
+    "noSubtitleContent": "Please upload a subtitle file first",
+    "female": "Female Voice",
+    "male": "Male Voice",
+    "femaleWarm": "Female (Warm)",
+    "femaleLively": "Female (Lively)",
+    "femaleGentle": "Female (Gentle)",
+    "maleProfessional": "Male (Professional)",
+    "maleWarm": "Male (Warm)",
+    "maleCasual": "Male (Casual)"
   },
   "actions": {
     "clickToUpload": "Click to upload",
@@ -186,5 +194,11 @@
         "description": "Get the processed subtitle file or audio file"
       }
     }
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "email": "Email",
+    "copyright": "© {year} AI Subtitle Assistant. All rights reserved."
   }
 } 
