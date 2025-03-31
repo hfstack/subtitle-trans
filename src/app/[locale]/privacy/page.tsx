@@ -2,10 +2,11 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }) {
+  const params = await props.params;
   const locale = await params.locale;
   const t = await getTranslations({ locale, namespace: 'Metadata' });
-  
+
   return {
     title: t('privacy.title'),
     description: t('privacy.description'),
