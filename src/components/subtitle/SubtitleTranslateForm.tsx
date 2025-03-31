@@ -109,6 +109,7 @@ const SubtitleTranslateForm: React.FC<SubtitleTranslateFormProps> = ({ initialCo
               const formattedStreamingResult = formatToSRT(tempEntries);
               setStreamingResult(formattedStreamingResult);
             } catch (err) {
+              console.error('格式化失败:', err);
               // 如果格式化失败，则显示原始文本
               setStreamingResult(accumulatedResult.replace(/\|\|\|\|/g, '\n\n'));
             }

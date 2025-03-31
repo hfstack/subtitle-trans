@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import FileUpload from '../common/FileUpload';
 import Button from '../common/Button';
 import { parseSRT, formatToSRT, entriesToText, applyTextToEntries, SubtitleEntry } from '@/utils/subtitleUtils';
 import { useSubtitleContext } from '@/contexts/SubtitleContext';
@@ -15,7 +14,6 @@ interface SubtitleEmojiFormProps {
 const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, onComplete }) => {
   const t = useTranslations('actions');
   const featuresT = useTranslations('features');
-  const { subtitleContent, setSubtitleContent, subtitleFile, clearSubtitle } = useSubtitleContext();
   const [emojiDensity, setEmojiDensity] = useState('medium');
   const [emojiPosition, setEmojiPosition] = useState('inline');
   const [emojiStyle, setEmojiStyle] = useState('modern');
@@ -25,16 +23,19 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
   const [error, setError] = useState<string | null>(null);
   const [streamingResult, setStreamingResult] = useState<string>('');
   const abortControllerRef = useRef<AbortController | null>(null);
-  
+  const { subtitleFile, subtitleContent, clearSubtitle } = useSubtitleContext();
+
   // 使用传入的initialContent或者上下文中的subtitleContent
   const content = initialContent || subtitleContent;
   
   // 清理函数
   useEffect(() => {
+    // 在effect内部创建引用副本
+    const currentAbortController = abortControllerRef.current;
+    
     return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
+      // 使用引用副本而不是直接引用
+      currentAbortController?.abort();
     };
   }, []);
   
@@ -44,8 +45,8 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
       try {
         const entries = parseSRT(content);
         setOriginalEntries(entries);
-      } catch (err) {
-        console.error('解析字幕文件失败:', err);
+      } catch (_err) {
+        console.error('解析字幕文件失败:', _err);
         setError(t('fileReadError'));
       }
     }
@@ -102,7 +103,8 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
               const tempEntries = applyTextToEntries(originalEntries, accumulatedResult);
               const formattedStreamingResult = formatToSRT(tempEntries);
               setStreamingResult(formattedStreamingResult);
-            } catch (err) {
+            } catch (_err) {
+              console.error('格式化失败:', _err);
               // 如果格式化失败，则显示原始文本
               setStreamingResult(accumulatedResult.replace(/\|\|\|\|/g, '\n\n'));
             }
@@ -122,9 +124,9 @@ const SubtitleEmojiForm: React.FC<SubtitleEmojiFormProps> = ({ initialContent, o
           onComplete(formattedResult);
         }
       }
-    } catch (error) {
-      console.error('处理失败:', error);
-      setError(error instanceof Error ? error.message : String(error));
+    } catch (_err) {
+      console.error('处理失败:', _err);
+      setError(_err instanceof Error ? _err.message : String(_err));
     } finally {
       setIsProcessing(false);
     }

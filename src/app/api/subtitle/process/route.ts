@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -15,8 +15,8 @@ export async function POST(request: Request) {
     }
 
     // 构建处理提示词
-    let tasks = [];
-    let instructions = [];
+    const tasks = [];
+    const instructions = [];
     
     if (options.repair) {
       tasks.push('修复字幕中的错误');

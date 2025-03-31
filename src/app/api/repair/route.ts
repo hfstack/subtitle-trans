@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    let tasks = [];
+    const tasks = [];
     if (correctGrammar) tasks.push('纠正语法和拼写错误');
     if (fixPunctuation) tasks.push('修复标点符号问题');
     if (improvePhrasing) tasks.push('改善表达方式，使语句更通顺自然');
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
                 try {
                   controller.enqueue(new TextEncoder().encode(content));
                 } catch (error) {
-                  console.log('流已关闭，无法继续发送数据');
+                  console.log('流已关闭，无法继续发送数据', error);
                   break;
                 }
               }
@@ -82,14 +82,14 @@ export async function POST(request: NextRequest) {
             
             // 只有在没有错误的情况下才关闭控制器
             controller?.close();
-          } catch (error) {
+          } catch (_error) {
             // 捕获流处理过程中的错误
-            console.error('流处理过程中发生错误:', error);
+            console.error('流处理过程中发生错误:', _error);
             // 尝试关闭控制器，但忽略可能的"已关闭"错误
             try {
               controller.close();
-            } catch (closeError) {
-              console.log('关闭控制器时出错，可能已经关闭');
+            } catch (_closeError) {
+              console.log('关闭控制器时出错，可能已经关闭', _closeError);
             }
           }
         } catch (error) {
@@ -97,8 +97,8 @@ export async function POST(request: NextRequest) {
           // 尝试发送错误信息，但忽略可能的"已关闭"错误
           try {
             controller.error(error);
-          } catch (errorError) {
-            console.log('发送错误时出错，控制器可能已关闭');
+          } catch (_errorError) {
+            console.log('发送错误时出错，控制器可能已关闭', _errorError);
           }
         }
       }

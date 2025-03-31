@@ -5,7 +5,7 @@ import { routing } from './src/lib/i18n/routing';
 export default createMiddleware({
   ...routing,
   // 添加默认语言重定向
-  defaultLocalePrefix: 'as-needed'
+  localePrefix: 'as-needed'
 });
 
 // 配置匹配路径

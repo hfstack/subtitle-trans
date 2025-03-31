@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 
 export default function PrivacyPage() {
   const t = useTranslations('Privacy');
-  const commonT = useTranslations('common');
   
   return (
     <div className="space-y-8">

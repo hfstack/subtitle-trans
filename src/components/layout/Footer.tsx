@@ -2,11 +2,10 @@
 
 import React from 'react';
 import { Link } from '@/lib/i18n/navigation';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 const Footer = () => {
   const t = useTranslations();
-  const locale = useLocale();
   
   return (
     <footer className="bg-gray-800 text-white py-10">

@@ -13,8 +13,8 @@ const SubtitleTTSForm = () => {
   const [language, setLanguage] = useState('zh');
   const [voice, setVoice] = useState('female1');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [result] = useState<string | null>(null);
+  const [audioUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,13 +22,14 @@ const SubtitleTTSForm = () => {
     
     // 显示功能开发中的提示
     setError(featuresT('ttsInDevelopment'));
-    return;
     
     // 以下代码暂时不会执行
     if (!subtitleContent) {
       setError(featuresT('noSubtitleContent'));
       return;
     }
+    return;
+
     
     setIsProcessing(true);
     setError(null);

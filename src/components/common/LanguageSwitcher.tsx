@@ -1,22 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { usePathname, useRouter } from '@/lib/i18n/navigation';
+import React, { useState, useEffect, useCallback } from 'react';
+import { usePathname } from '@/lib/i18n/navigation';
 import { routing } from '@/lib/i18n/routing';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
+
+// 定义一个类型来替代any
+type SupportedLocale = "zh" | "en";
 
 const LanguageSwitcher = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
   
-  // 获取当前语言 - 使用 params 和 pathname 综合判断
-  const getCurrentLocale = () => {
+  // 使用useCallback包装getCurrentLocale函数
+  const getCurrentLocale = useCallback(() => {
     // 首先检查 params.locale，这是 Next.js 国际化路由提供的
     if (params && params.locale && typeof params.locale === 'string' && 
-        routing.locales.includes(params.locale as any)) {
+        routing.locales.includes(params.locale as "zh" | "en")) {
       return params.locale as "zh" | "en";
     }
     
@@ -25,17 +26,17 @@ const LanguageSwitcher = () => {
     console.log('路径信息:', {
       pathname,
       pathLocale,
-      isLocaleValid: routing.locales.includes(pathLocale as any),
+      isLocaleValid: routing.locales.includes(pathLocale as "zh" | "en"),
       params
     });
     
-    if (routing.locales.includes(pathLocale as any)) {
+    if (routing.locales.includes(pathLocale as "zh" | "en")) {
       return pathLocale as "zh" | "en";
     }
     
     // 如果都无法确定，返回默认语言
     return routing.defaultLocale;
-  };
+  }, [params, pathname]);
   
   // 使用状态存储当前语言，确保UI更新
   const [currentLocale, setCurrentLocale] = useState<"zh" | "en">(getCurrentLocale());
@@ -43,7 +44,7 @@ const LanguageSwitcher = () => {
   // 当路径变化时更新当前语言
   useEffect(() => {
     setCurrentLocale(getCurrentLocale());
-  }, [pathname, params]);
+  }, [getCurrentLocale]);
   
   const languageNames: Record<string, string> = {
     zh: '中文',
@@ -61,7 +62,7 @@ const LanguageSwitcher = () => {
     
     // 检查当前URL是否包含语言前缀
     const urlSegments = fullPath.split('/').filter(Boolean);
-    const hasLocalePrefix = urlSegments.length > 0 && routing.locales.includes(urlSegments[0] as any);
+    const hasLocalePrefix = urlSegments.length > 0 && routing.locales.includes(urlSegments[0] as SupportedLocale);
     
     if (hasLocalePrefix) {
       // 如果有语言前缀，替换它

@@ -14,11 +14,11 @@ interface SubtitleRepairFormProps {
 const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent, onComplete }) => {
   const t = useTranslations('actions');
   const featuresT = useTranslations('features');
-  const { subtitleContent, setSubtitleContent, subtitleFile, clearSubtitle } = useSubtitleContext();
+  const { subtitleFile, clearSubtitle, subtitleContent } = useSubtitleContext();
+
   const [repairLevel, setRepairLevel] = useState('standard');
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<string | null>(null);
-  const [repairedContent, setRepairedContent] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [streamingResult, setStreamingResult] = useState<string>('');
   const [comparisonResult, setComparisonResult] = useState<{
@@ -101,7 +101,6 @@ const SubtitleRepairForm: React.FC<SubtitleRepairFormProps> = ({ initialContent,
         
         // 流式响应完成后设置最终结果
         setResult(accumulatedResult);
-        setRepairedContent(accumulatedResult);
         
         // 生成比较结果
         const comparison = compareSubtitles(content, accumulatedResult);

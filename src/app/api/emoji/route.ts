@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
             ],
             temperature: 0.7,
             stream: true,
-            signal: abortController.signal // 使用 AbortController 的信号
+            // signal: abortController.signal // 使用 AbortController 的信号
           });
           
           // 处理流式响应
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
                 try {
                   controller.enqueue(new TextEncoder().encode(content));
                 } catch (error) {
-                  console.log('流已关闭，无法继续发送数据');
+                  console.log('流已关闭，无法继续发送数据', error);
                   break;
                 }
               }
@@ -115,19 +115,19 @@ export async function POST(request: NextRequest) {
               try {
                 controller.close();
               } catch (closeError) {
-                console.log('关闭控制器时出错，可能已经关闭');
+                console.log('关闭控制器时出错，可能已经关闭', closeError);
               }
             }
           }
         } catch (error) {
           // 忽略因取消导致的错误
-          if (error.name === 'AbortError') {
+          if (error instanceof Error && error.name === 'AbortError') {
             console.log('OpenAI 请求被中止');
             if (controller) {
               try {
                 controller.close();
               } catch (closeError) {
-                console.log('关闭控制器时出错，可能已经关闭');
+                console.log('关闭控制器时出错，可能已经关闭', closeError);
               }
             }
             return;
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
             try {
               controller.error(error);
             } catch (errorError) {
-              console.log('发送错误时出错，控制器可能已关闭');
+              console.log('发送错误时出错，控制器可能已关闭', errorError);
             }
           }
         }

@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+// import { notFound } from 'next/navigation';
 import { getRequestConfig } from 'next-intl/server';
 import { routing } from './lib/i18n/routing';
 
@@ -7,7 +7,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;
   
   // 确保传入的语言环境有效
-  if (!locale || !routing.locales.includes(locale as any)) {
+  if (!locale || !routing.locales.includes(locale as 'zh' | 'en')) {
     locale = routing.defaultLocale;
   }
 

@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 
 export default function TermsPage() {
   const t = useTranslations('Terms');
-  const commonT = useTranslations('common');
   
   return (
     <div className="space-y-8">

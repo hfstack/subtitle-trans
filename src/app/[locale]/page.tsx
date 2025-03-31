@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import SubtitleUploader from '@/components/subtitle/SubtitleUploader';
 import SubtitleProcessForm from '@/components/subtitle/SubtitleProcessForm';
@@ -11,7 +11,6 @@ import HowToUse from '@/components/home/HowToUse';
 
 const HomePage = () => {
   const { subtitleContent } = useSubtitleContext();
-  const [processedContent, setProcessedContent] = useState<string>('');
   const t = useTranslations('home.workflow');
   
   const workflowSteps = [

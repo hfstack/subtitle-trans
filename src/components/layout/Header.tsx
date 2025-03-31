@@ -2,14 +2,13 @@
 
 import React from 'react';
 import { Link, usePathname } from '@/lib/i18n/navigation';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import LanguageSwitcher from '../common/LanguageSwitcher';
 
 const Header: React.FC = () => {
   const t = useTranslations('common');
   const featureT = useTranslations('features');
   const pathname = usePathname();
-  const locale = useLocale();
   
   // 获取导航项的样式
   const getLinkClassName = (path: string) => {
