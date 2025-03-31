@@ -3,9 +3,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 const Footer = () => {
   const t = useTranslations();
+  const locale = useLocale();
   
   return (
     <footer className="bg-gray-800 text-white py-10">
@@ -47,33 +49,33 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">{t('common.about')}</h3>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <Link href="/about" className="text-gray-400 hover:text-white">
                   {t('common.about')}
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white">
+                <a href="mailto:contact@aisubtitle.com" className="text-gray-400 hover:text-white">
                   {t('common.contact')}
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/privacy" className="text-gray-400 hover:text-white">
+                <Link href={`/${locale}/privacy`} className="text-gray-400 hover:text-white">
                   {t('footer.privacy')}
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-gray-400 hover:text-white">
+                <Link href={`/${locale}/terms`} className="text-gray-400 hover:text-white">
                   {t('footer.terms')}
                 </Link>
               </li>
             </ul>
           </div>
           
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold mb-4">{t('common.contact')}</h3>
             <p className="text-gray-400 mb-2">
-              {t('footer.email')}: contact@aisubtitle.com
+              {t('footer.email')}: <a href="mailto:contact@aisubtitle.com" className="hover:text-white">contact@aisubtitle.com</a>
             </p>
             <div className="flex space-x-4 mt-4">
               <a href="#" className="text-gray-400 hover:text-white">
@@ -92,7 +94,7 @@ const Footer = () => {
                 </svg>
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">

@@ -1,0 +1,108 @@
+{
+  "Metadata": {
+    "privacy": {
+      "title": "Privacy Policy | AI Subtitle",
+      "description": "Learn how we collect, use, and protect your personal information"
+    },
+    "terms": {
+      "title": "Terms of Service | AI Subtitle",
+      "description": "Terms and conditions for using our services"
+    }
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: {date}",
+    "section1": {
+      "title": "1. Information Collection",
+      "content": "We collect very limited information, mainly including:",
+      "items": [
+        "Basic technical information automatically generated when you use our services",
+        "Subtitle content you upload to our platform"
+      ]
+    },
+    "section2": {
+      "title": "2. Information Usage",
+      "content": "We use the collected information only for:",
+      "items": [
+        "Providing, maintaining, and improving our subtitle processing services",
+        "Developing new features",
+        "Ensuring the security of our services"
+      ]
+    },
+    "section3": {
+      "title": "3. Information Sharing",
+      "content": "We do not sell or share your information. We may only share information in the following circumstances:",
+      "items": [
+        "To comply with legal obligations",
+        "To protect our rights and property"
+      ]
+    },
+    "section4": {
+      "title": "4. Data Security",
+      "content": "We take reasonable measures to protect the content you upload from unauthorized access or use."
+    },
+    "section5": {
+      "title": "5. Use of Cookies",
+      "content": "We use cookies to improve user experience. You can control cookies through your browser settings.",
+      "items": [
+        "Functional cookies: Remember your preferences",
+        "Analytical cookies: Help us understand how users use our services"
+      ]
+    },
+    "section6": {
+      "title": "6. Contact Us",
+      "content": "If you have any questions about our privacy policy, please contact us at:",
+      "email": "contact@aisubtitle.com"
+    }
+  },
+  "Terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: {date}",
+    "section1": {
+      "title": "1. Acceptance of Terms",
+      "content": "By accessing or using our services, you agree to be bound by these terms. If you do not agree to these terms, please do not use our services."
+    },
+    "section2": {
+      "title": "2. Service Description",
+      "content": "We provide an online platform that allows users to process and translate subtitles using AI technology. We reserve the right to modify the service at any time."
+    },
+    "section3": {
+      "title": "3. User Content",
+      "content": "You retain all rights to the content you upload to our platform. By uploading content, you grant us permission to process that content to provide our services."
+    },
+    "section4": {
+      "title": "4. Usage Guidelines",
+      "content": "When using our services, you agree to:",
+      "items": [
+        "Not upload content that infringes on others' intellectual property rights",
+        "Not use the services for any illegal activities",
+        "Not interfere with the normal operation of the services"
+      ]
+    },
+    "section5": {
+      "title": "5. Intellectual Property",
+      "content": "Our services and related content are protected by intellectual property laws. You may not use, copy, or distribute our content without our explicit permission."
+    },
+    "section6": {
+      "title": "6. Disclaimer",
+      "content": "Our services are provided 'as is' without any warranties of any kind. We do not guarantee that the service will be uninterrupted or error-free."
+    },
+    "section7": {
+      "title": "7. Limitation of Liability",
+      "content": "To the maximum extent permitted by law, we will not be liable for any indirect or incidental damages."
+    },
+    "section8": {
+      "title": "8. Modification of Terms",
+      "content": "We may modify these terms from time to time. The modified terms will be posted on our website and will be effective upon posting."
+    },
+    "section9": {
+      "title": "9. Governing Law",
+      "content": "These terms are governed by the laws of China, and any disputes shall be submitted to the courts having jurisdiction."
+    },
+    "section10": {
+      "title": "10. Contact Us",
+      "content": "If you have any questions about these terms, please contact us at:",
+      "email": "contact@aisubtitle.com"
+    }
+  }
+} 
