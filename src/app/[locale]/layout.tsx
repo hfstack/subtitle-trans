@@ -20,15 +20,11 @@ export function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-  params,
+  params: { locale }
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  // 在 Next.js 15+ 中，params 需要被 await
-  const resolvedParams = await Promise.resolve(params);
-  const locale = resolvedParams.locale;
-  
   // 设置请求语言环境
   setRequestLocale(locale);
   
@@ -43,7 +39,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale} className={inter.variable}>
+    <html lang={locale} suppressHydrationWarning className={inter.variable}>
       <body className="font-sans">
         <SubtitleProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>

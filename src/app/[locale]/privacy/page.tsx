@@ -2,7 +2,8 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const locale = await params.locale;
   const t = await getTranslations({ locale, namespace: 'Metadata' });
   
   return {
@@ -25,25 +26,34 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mt-8 mb-4">{t('section1.title')}</h2>
           <p>{t('section1.content')}</p>
           <ul className="list-disc pl-6 mb-4">
-            {t('section1.items').map((item: string, index: number) => (
-              <li key={index}>{item}</li>
-            ))}
+            {Array.isArray(t('section1.items')) 
+              ? t('section1.items').map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))
+              : <li>{t('section1.items')}</li>
+            }
           </ul>
           
           <h2 className="text-2xl font-semibold mt-8 mb-4">{t('section2.title')}</h2>
           <p>{t('section2.content')}</p>
           <ul className="list-disc pl-6 mb-4">
-            {t('section2.items').map((item: string, index: number) => (
-              <li key={index}>{item}</li>
-            ))}
+            {Array.isArray(t('section2.items')) 
+              ? t('section2.items').map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))
+              : <li>{t('section2.items')}</li>
+            }
           </ul>
           
           <h2 className="text-2xl font-semibold mt-8 mb-4">{t('section3.title')}</h2>
           <p>{t('section3.content')}</p>
           <ul className="list-disc pl-6 mb-4">
-            {t('section3.items').map((item: string, index: number) => (
-              <li key={index}>{item}</li>
-            ))}
+            {Array.isArray(t('section3.items')) 
+              ? t('section3.items').map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))
+              : <li>{t('section3.items')}</li>
+            }
           </ul>
           
           <h2 className="text-2xl font-semibold mt-8 mb-4">{t('section4.title')}</h2>
@@ -52,9 +62,12 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mt-8 mb-4">{t('section5.title')}</h2>
           <p>{t('section5.content')}</p>
           <ul className="list-disc pl-6 mb-4">
-            {t('section5.items').map((item: string, index: number) => (
-              <li key={index}>{item}</li>
-            ))}
+            {Array.isArray(t('section5.items')) 
+              ? t('section5.items').map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))
+              : <li>{t('section5.items')}</li>
+            }
           </ul>
           
           <h2 className="text-2xl font-semibold mt-8 mb-4">{t('section6.title')}</h2>
