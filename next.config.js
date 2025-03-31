@@ -2,16 +2,7 @@ const withNextIntl = require('next-intl/plugin')('./src/i18n.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 添加重定向规则
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/zh',
-        permanent: false,
-      },
-    ];
-  }
+  // 重定向已移至 middleware.ts 中处理
 };
 
 module.exports = withNextIntl(nextConfig); 
