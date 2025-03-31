@@ -225,6 +225,7 @@
   "Privacy": {
     "title": "隐私政策",
     "lastUpdated": "最后更新: {date}",
+    "description": "了解我们如何保护您的隐私",
     "section1": {
       "title": "信息收集",
       "content": "我们可能收集以下信息:",
@@ -268,12 +269,13 @@
     "section6": {
       "title": "联系我们",
       "content": "如有任何关于隐私政策的问题，请联系我们:",
-      "email": "contact@aisubtitlehelper.com"
+      "email": "helper@flydragon.site"
     }
   },
   "Terms": {
     "title": "服务条款",
     "lastUpdated": "最后更新: {date}",
+    "description": "使用我们服务的条款和条件",
     "section1": {
       "title": "接受条款",
       "content": "使用我们的服务即表示您同意这些条款。如果您不同意这些条款，请不要使用我们的服务。"
@@ -318,7 +320,7 @@
     "section10": {
       "title": "联系我们",
       "content": "如有任何关于使用条款的问题，请联系我们:",
-      "email": "contact@aisubtitlehelper.com"
+      "email": "helper@flydragon.site"
     }
   }
 } 

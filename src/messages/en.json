@@ -208,6 +208,7 @@
   },
   "Privacy": {
     "title": "Privacy Policy",
+    "description": "Learn how we protect your privacy",
     "lastUpdated": "Last updated: {date}",
     "section1": {
       "title": "Information Collection",
@@ -252,12 +253,13 @@
     "section6": {
       "title": "Contact Us",
       "content": "If you have any questions about our privacy policy, please contact us at:",
-      "email": "contact@aisubtitlehelper.com"
+      "email": "helper@flydragon.site"
     }
   },
   "Terms": {
     "title": "Terms of Service",
     "lastUpdated": "Last updated: {date}",
+    "description": "Terms and conditions for using our service",
     "section1": {
       "title": "Acceptance of Terms",
       "content": "By using our services, you agree to these terms. If you do not agree with these terms, please do not use our services."
@@ -302,17 +304,7 @@
     "section10": {
       "title": "Contact Us",
       "content": "If you have any questions about our terms of service, please contact us at:",
-      "email": "contact@aisubtitlehelper.com"
-    }
-  },
-  "Metadata": {
-    "privacy": {
-      "title": "Privacy Policy",
-      "description": "Learn how we protect your privacy"
-    },
-    "terms": {
-      "title": "Terms of Service",
-      "description": "Terms and conditions for using our service"
+      "email": "helper@flydragon.site"
     }
   }
 } 

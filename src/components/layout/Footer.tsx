@@ -54,7 +54,7 @@ const Footer = () => {
                 </Link>
               </li> */}
               <li>
-                <a href="mailto:contact@aisubtitle.com" className="text-gray-400 hover:text-white">
+                <a href="mailto:contact@flydragon.site" className="text-gray-400 hover:text-white">
                   {t('common.contact')}
                 </a>
               </li>
@@ -74,7 +74,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">{t('common.contact')}</h3>
             <p className="text-gray-400 mb-2">
-              {t('footer.email')}: <a href="mailto:contact@aisubtitle.com" className="hover:text-white">contact@aisubtitle.com</a>
+              {t('footer.email')}: <a href="mailto:contact@flydragon.site" className="hover:text-white">contact@flydragon.site</a>
             </p>
             {/* <div className="flex space-x-4 mt-4">
               <a href="#" className="text-gray-400 hover:text-white">
