@@ -60,12 +60,12 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <Link href={`/${locale}/privacy`} className="text-gray-400 hover:text-white">
+                <Link href="/privacy" className="text-gray-400 hover:text-white">
                   {t('footer.privacy')}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/terms`} className="text-gray-400 hover:text-white">
+                <Link href="/terms" className="text-gray-400 hover:text-white">
                   {t('footer.terms')}
                 </Link>
               </li>

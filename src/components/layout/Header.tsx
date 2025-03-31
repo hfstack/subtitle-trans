@@ -2,28 +2,32 @@
 
 import React from 'react';
 import { Link, usePathname } from '@/lib/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import LanguageSwitcher from '../common/LanguageSwitcher';
 
 const Header: React.FC = () => {
   const t = useTranslations('common');
   const featureT = useTranslations('features');
   const pathname = usePathname();
-  
-  // 检查当前路径是否匹配导航项
-  const isActive = (path: string) => {
-    if (path === '/') {
-      return pathname === '/' || pathname === '';
-    }
-    return pathname.startsWith(path);
-  };
+  const locale = useLocale();
   
   // 获取导航项的样式
   const getLinkClassName = (path: string) => {
-    return `inline-flex items-center px-1 pt-1 border-b-2 ${
-      isActive(path)
-        ? 'border-indigo-500 text-sm font-medium text-gray-900'
-        : 'border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300'
+    // 更精确地检测当前路径
+    let isActive = false;
+    
+    if (path === '/') {
+      // 首页的情况
+      isActive = pathname === '/' || pathname === '';
+    } else {
+      // 其他页面的情况
+      isActive = pathname === path;
+    }
+    
+    return `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+      isActive
+        ? 'border-indigo-500 text-gray-900'
+        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
     }`;
   };
   
