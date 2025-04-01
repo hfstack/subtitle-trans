@@ -65,6 +65,7 @@ export default async function RootLayout(
   return (
     <html lang={locale} suppressHydrationWarning className={inter.variable}>
       <head>
+        <meta name="google-site-verification" content="u3IyN7rmC8SUm09q1HJHkNYYTpnW7Sq2Wb2CXDYENVM" />
         <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
