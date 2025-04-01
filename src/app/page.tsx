@@ -1,12 +1,12 @@
 import { headers } from 'next/headers';
-import HomePage from './[locale]/page';
+import { redirect } from 'next/navigation';
 
 // 支持的语言列表
 const locales = ['en', 'zh', 'es', 'fr', 'de', 'ja', 'ko'];
 
-export default function RootPage() {
+export default async function RootPage() {
   // 获取请求头
-  const headersList = headers();
+  const headersList = await headers();
   const acceptLanguage = headersList.get('accept-language') || '';
   
   // 解析浏览器语言
@@ -17,6 +17,6 @@ export default function RootPage() {
   // 匹配支持的语言，默认为英语
   const locale = browserLanguages.find(lang => locales.includes(lang)) || 'en';
 
-  // 复用多语言页面组件
-  return <HomePage params={{ locale }} />;
+  // 重定向到对应的语言路径
+  redirect(`/${locale}`);
 }

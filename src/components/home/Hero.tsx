@@ -3,6 +3,8 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n/navigation';
+import Image from 'next/image';
+import exampleImage from '@/assets/images/example.png';
 
 const Hero = () => {
   const t = useTranslations('home.hero');
@@ -43,9 +45,9 @@ const Hero = () => {
         </div>
       </div>
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <img
+        <Image
           className="h-48 w-full object-cover sm:h-56 md:h-72 lg:w-full lg:h-full"
-          src="/images/hero-image.jpg"
+          src={exampleImage}
           alt={commonT('appName')}
         />
       </div>

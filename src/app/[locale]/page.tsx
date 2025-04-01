@@ -9,7 +9,8 @@ import Hero from '@/components/home/Hero';
 import Features from '@/components/home/Features';
 import HowToUse from '@/components/home/HowToUse';
 
-const HomePage = () => {
+// 移除未使用的 props 类型定义
+export default function HomePage() {
   const { subtitleContent } = useSubtitleContext();
   const t = useTranslations('home.workflow');
   
@@ -58,6 +59,4 @@ const HomePage = () => {
       <HowToUse />
     </div>
   );
-};
-
-export default HomePage; 
+} 
