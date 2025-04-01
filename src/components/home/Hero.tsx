@@ -13,8 +13,9 @@ const Hero = () => {
   return (
     <div className="relative bg-white overflow-hidden pt-6 sm:pt-8">
       <div className="max-w-7xl mx-auto">
-        <div className="relative z-10 bg-white sm:pb-8 lg:max-w-2xl lg:w-full">
-          <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:pb-28 xl:pb-32">
+          <div className="lg:absolute lg:inset-y-0 lg:left-0 lg:bg-white lg:bg-opacity-90 lg:w-1/2"></div>
+          <main className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="sm:text-center lg:text-left">
               <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl">
                 <span className="block xl:inline">{t('title')}</span>
@@ -46,9 +47,10 @@ const Hero = () => {
       </div>
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <Image
-          className="h-48 w-full object-cover sm:h-56 md:h-72 lg:w-full lg:h-full"
+          className="h-64 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
           src={exampleImage}
           alt={commonT('appName')}
+          priority
         />
       </div>
     </div>
