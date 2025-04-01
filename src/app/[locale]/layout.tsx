@@ -5,6 +5,7 @@ import MainLayout from '@/components/layout/MainLayout';
 import { routing } from '@/lib/i18n/routing';
 import { SubtitleProvider } from '@/contexts/SubtitleContext';
 import { NextRequest, NextResponse } from 'next/server';
+import Script from 'next/script'
 
 import '../globals.css';
 
@@ -63,6 +64,24 @@ export default async function RootLayout(
 
   return (
     <html lang={locale} suppressHydrationWarning className={inter.variable}>
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+            `,
+          }}
+        />
+      </head>
       <body className="font-sans">
         <SubtitleProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
