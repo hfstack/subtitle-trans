@@ -1,19 +1,22 @@
-'use client';
+import { headers } from 'next/headers';
+import HomePage from './[locale]/page';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+// 支持的语言列表
+const locales = ['en', 'zh', 'es', 'fr', 'de', 'ja', 'ko'];
 
-export default function Home() {
-  const router = useRouter();
+export default function RootPage() {
+  // 获取请求头
+  const headersList = headers();
+  const acceptLanguage = headersList.get('accept-language') || '';
   
-  useEffect(() => {
-    // 获取浏览器语言
-    const userLang = navigator.language;
-    const lang = userLang.startsWith('zh') ? 'zh' : 'en';
-    
-    // 重定向到相应语言页面
-    router.replace(`/${lang}`);
-  }, [router]);
-  
-  return <div>正在重定向...</div>;
+  // 解析浏览器语言
+  const browserLanguages = acceptLanguage
+    .split(',')
+    .map(lang => lang.split(';')[0].trim().substring(0, 2).toLowerCase());
+
+  // 匹配支持的语言，默认为英语
+  const locale = browserLanguages.find(lang => locales.includes(lang)) || 'en';
+
+  // 复用多语言页面组件
+  return <HomePage params={{ locale }} />;
 }
