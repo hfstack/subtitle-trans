@@ -30,6 +30,48 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   return {
     title: t('appName'),
     description: t('slogan'),
+    keywords: t('keywords'),
+    metadataBase: new URL('https://flydragon.site'),
+    alternates: {
+      canonical: '/',
+      languages: {
+        'en': '/en',
+        'zh': '/zh',
+      },
+    },
+    // openGraph: {
+    //   title: t('appName'),
+    //   description: t('slogan'),
+    //   url: 'https://your-site-url.com',
+    //   siteName: t('appName'),
+    //   images: [
+    //     {
+    //       url: 'https://your-site-url.com/og-image.jpg',
+    //       width: 1200,
+    //       height: 630,
+    //       alt: t('appName'),
+    //     },
+    //   ],
+    //   locale: locale,
+    //   type: 'website',
+    // },
+    // twitter: {
+    //   card: 'summary_large_image',
+    //   title: t('appName'),
+    //   description: t('slogan'),
+    //   images: ['https://your-site-url.com/twitter-image.jpg'],
+    // },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 
